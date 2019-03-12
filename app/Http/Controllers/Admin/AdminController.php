@@ -25,10 +25,7 @@ class AdminController extends Controller
         }
         else
         {
-
-            $id = Auth::guard('admin')->id();
-            $adminNow = Admin::findOrFail($id);
-            return view('admin.home',compact('adminNow'));
+            return view('admin.home');
         }
     }
 
@@ -41,9 +38,7 @@ class AdminController extends Controller
         else
         {
             $admins = Admin::paginate(Admin::PAGINATION);
-            $id = Auth::guard('admin')->id();
-            $adminNow = Admin::findOrFail($id);
-            return view('admin.admin',compact('admins','adminNow'));
+            return view('admin.admin', compact('admins'));
         }
     }
 
@@ -83,7 +78,7 @@ class AdminController extends Controller
         $admin = Admin::findOrFail($id);
         if (Auth::guard('admin')->check())
         {
-            return view('admin.change_password',compact('admin'));
+            return view('admin.change_password', compact('admin'));
         }
         elseif(!Auth::guard('admin')->check())
         {

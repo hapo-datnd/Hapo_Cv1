@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Cv;
@@ -30,8 +29,8 @@ class HomeController extends Controller
         {
             $id = Auth::guard('user')->id();
             $user = User::findOrFail($id);
-            $cvs = Cv::where('user_id',$id)->get();
-            return view('home',compact('user','cvs'));
+            $cvs = Cv::where('user_id',$id)->paginate(Cv::PAGINATION);
+            return view('home', compact('user','cvs'));
 //            return $id;
         }
         elseif(!Auth::guard('user')->check())

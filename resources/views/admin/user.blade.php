@@ -83,14 +83,14 @@
     @elseif(Auth::guard('admin')->check())
         <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                {{ $adminNow->name}} <span class="caret"></span>
+                {{ Auth::guard('admin')->user()->name}} <span class="caret"></span>
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                @if($adminNow->type === $adminNow::SUPER_ADMIN)
+                @if(Auth::guard('admin')->user()->type === Auth::guard('admin')->user()::SUPER_ADMIN)
                     <a class="dropdown-item" href="{{ route('admins.create') }}">{{ __('Create admin') }}</a>
                 @endif
-                <a class="dropdown-item" href="{{ route('admin.change_password',$adminNow->id) }}">{{ __('Change password') }}</a>
+                <a class="dropdown-item" href="{{ route('admin.change_password', Auth::guard('admin')->id() ) }}">{{ __('Change password') }}</a>
                 <a class="dropdown-item" href="{{ route('logout_admin') }}"
                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

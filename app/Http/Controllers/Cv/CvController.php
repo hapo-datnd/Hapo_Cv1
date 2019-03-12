@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cv;
 
+use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cv;
 use App\Models\Admin;
@@ -24,9 +25,7 @@ class CvController extends Controller
         else
         {
             $cvs = Cv::paginate(Cv::PAGINATION);
-            $id = Auth::guard('admin')->id();
-            $adminNow = Admin::findOrFail($id);
-            return view('admin.cv',compact('adminNow','cvs'));
+            return view('admin.cv', compact('cvs'));
         }
     }
 
@@ -48,7 +47,12 @@ class CvController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userId = Auth::guard('user')->id();
+        $cv = new Cv;
+        $cv->title = $request->title;
+        $cv->user_id = $userId;
+        $cv->save();
+        return  redirect()->route('home');
     }
 
     /**
@@ -59,7 +63,9 @@ class CvController extends Controller
      */
     public function show($id)
     {
-        //
+        $proSkills = Cv::findOrFail($id)->skills;
+        $cv = Cv::findOrFail($id);
+        return view('cv.index', compact('cv','proSkills'));
     }
 
     /**
@@ -70,7 +76,45 @@ class CvController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cv = Cv::findOrFail($id);
+        return view('cv.index', compact('cv'));
+    }
+
+
+    public function updateAva(Request $request,$id)
+    {
+        if($request->hasFile('myAva'))
+        {
+            $cv = Cv::findOrFail($id);
+            $file = $request->file('myAva');
+            $file->move('image','ava'.$cv->id.'.png');
+            $cv->image = 'ava'.$cv->id.'.png';
+            $cv->image_mini = 'ava'.$cv->id.'.png';
+            $cv->save();
+            return redirect()->route('cvs.edit', compact('id'));
+
+        }
+        else
+        {
+            return redirect()->route('cvs.edit', compact('id'));
+        }
+    }
+
+    public function updateInfo(Request $request,$id)
+    {
+        $cv = Cv::findOrFail($id);
+        $cv->first_name = $request->first_name;
+        $cv->last_name = $request->last_name;
+        $cv->position = $request->position;
+        $cv->date_of_birth = $request->date_of_birth;
+        $cv->phone = $request->phone;
+        $cv->email = $request->email;
+        $cv->facebook = $request->facebook;
+        $cv->skype = $request->skype;
+        $cv->chat_work = $request->chat_work;
+        $cv->address  = $request->address;
+        $cv->save();
+        return redirect()->route('cvs.edit', compact('id'));
     }
 
     /**
@@ -90,7 +134,7 @@ class CvController extends Controller
         $cv = Cv::findOrFail($id);
         $cv->status = $request->status;
         $cv->save();
-        return redirect()->route('cvs.index')->with('message','Bạn đã thay đổi quyền của '.$cv->title.' thành công!');
+        return redirect()->route('cvs.index')->with('message','Bạn đã thay đổi trạng thái của '.$cv->title.' thành công!');
     }
 
     /**
@@ -101,6 +145,7 @@ class CvController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cv = Cv::findOrFail($id)->delete();
+        return redirect()->route('home');
     }
 }

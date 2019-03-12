@@ -16,7 +16,7 @@
                 <div class="row flex-row-reverse col-md-6 p-0 mb-1">
                     <button type="button" class="btn btn-outline-success"
                             data-toggle="modal" data-target="#myCvModal">
-                        <i class="fas fa-plus"></i> Thêm
+                        <i class="fas fa-plus"></i> Add
                     </button>
                     <div class="modal fade" id="myCvModal">
                         <div class="modal-dialog modal-lg">
@@ -28,7 +28,7 @@
                                 </div>
                                 <!-- Modal body -->
                                 <div class="modal-body">
-                                    <form method="POST" action="{{route('cvs.create')}}">
+                                    <form method="POST" action="{{route('cvs.store')}}">
                                         @csrf
 
                                         <div class="form-group row">
@@ -67,21 +67,27 @@
                     <td>ID</td>
                     <td>Title</td>
                     <td>Time Update</td>
-                    <td>Hành Động</td>
+                    <td></td>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach ($cvs as $cv)
                     <tr>
-                        <td>{{$i++}}</td>
-                        <td>{{$cv->id}}</td>
-                        <td>{{$cv->title}}</td>
-                        <td>{{$cv->updated_at}}</td>
-                        <td>
+                        <td class="border-0">{{$i++}}</td>
+                        <td class="border-0">{{$cv->id}}</td>
+                        <td class="border-0">{{$cv->title}}</td>
+                        <td class="border-0">{{$cv->updated_at}}</td>
+                        <td class="border-0">
                             <div class="row">
-                                <a href="{{route('cvs.show',$cv->id)}}" class="m-auto"><button type="button" class="btn btn-outline-success"> Xem </button></a>
-                                <a href="{{route('cvs.edit',$cv->id)}}" class="m-auto"><button type="button" class="btn btn-outline-primary"> Sửa </button></a>
-                                <a href="{{route('cvs.destroy',$cv->id)}}" class="m-auto"><button type="button" class="btn btn-outline-danger"> Xóa </button></a>
+                                <a href="{{route('cvs.show',$cv->id)}}" class="m-auto"><button type="button" class="btn btn-outline-success"> Show </button></a>
+                                <a href="{{route('cvs.edit',$cv->id)}}" class="m-auto"><button type="button" class="btn btn-outline-primary"> Edit </button></a>
+                                <form method="post" class="m-auto" action="{{route('cvs.destroy',$cv->id)}}" id="form_destroy_admin{{$cv->id}}">
+                                    @method('DELETE')
+                                    <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                                    <button id="buttonDelete" onclick="deleteAdminConfirm({{$cv->id}})"
+                                            type="button" class="btn btn-outline-danger"
+                                            value="{{$cv->id}}" > Delete </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -89,6 +95,16 @@
                 {{--{{$id}}--}}
                 </tbody>
             </table>
+            <div>
+                {{ $cvs->links() }}
+            </div>
         </div>
     </div>
+    <script>
+        function deleteAdminConfirm(id) {
+            let x = confirm("Are you sure you want to delete?");
+            if(x)
+                document.getElementById("form_destroy_admin"+id).submit();
+        }
+    </script>
 @endsection

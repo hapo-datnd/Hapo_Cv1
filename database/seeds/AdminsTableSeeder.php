@@ -13,6 +13,14 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::table('admins')->insert([
+            'name' => 'Dat_SP_Admin',
+            'email' => 'datnd@gmail.com',
+            'password' => bcrypt('tuyem123'),
+            'type' => Admin::SUPER_ADMIN,
+        ]);
+
         for ($i = 0 ; $i< 10 ; $i ++) {
             DB::table('admins')->insert([
                 'name' => 'Dat'.$i,
@@ -22,11 +30,6 @@ class AdminsTableSeeder extends Seeder
             ]);
         }
 
-        DB::table('admins')->insert([
-            'name' => 'Dat_SP_Admin',
-            'email' => 'datnd@gmail.com',
-            'password' => bcrypt('tuyem123'),
-            'type' => Admin::SUPER_ADMIN,
-        ]);
+
     }
 }

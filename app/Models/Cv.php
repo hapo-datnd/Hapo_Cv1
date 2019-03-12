@@ -19,31 +19,31 @@ class Cv extends Model
 
     public function workExperiences()
     {
-        $this->hasMany(WorkExperience::class);
+        return $this->hasMany(WorkExperience::class);
     }
 
     public function education()
     {
-        $this->hasMany(Education::class);
+        return $this->hasMany(Education::class);
     }
 
     public function portfolios()
     {
-        $this->hasMany(Portfolio::class);
+        return $this->hasMany(Portfolio::class);
     }
 
     public function references()
     {
-        $this->hasMany(Reference::class);
+        return $this->hasMany(Reference::class);
     }
 
-    public function skill()
+    public function skills()
     {
-        $this->belongsToMany(Skill::class);
+        return $this->belongsToMany(Skill::class)->withPivot('percent','type');
     }
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }

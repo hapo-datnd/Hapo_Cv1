@@ -23,9 +23,7 @@ class UserController extends Controller
         {
             $users = User::paginate(User::PAGINATION);
             $admins = Admin::paginate(Admin::PAGINATION);
-            $id = Auth::guard('admin')->id();
-            $adminNow = Admin::findOrFail($id);
-            return view('admin.user',compact('users','admins','adminNow'));
+            return view('admin.user', compact('users','admins'));
         }
     }
 
@@ -50,7 +48,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         if (Auth::guard('user')->check())
         {
-            return view('user.change_password',compact('user'));
+            return view('user.change_password', compact('user'));
         }
         elseif(!Auth::guard('user')->check())
         {

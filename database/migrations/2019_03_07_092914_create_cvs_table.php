@@ -28,7 +28,7 @@ class CreateCvsTable extends Migration
             $table->string('chat_work')->default('Slack');
             $table->string('position')->default('Web Developer');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('summary')->default('Mục tiêu trong công việc');
             $table->boolean('status')->default(1);
             $table->string('image_mini')->default('default.png');
