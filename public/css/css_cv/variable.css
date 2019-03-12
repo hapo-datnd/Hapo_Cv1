@@ -1,0 +1,26 @@
+@font-face {
+  font-family: Poppins-h1;
+  font-display: auto;
+  src: url("font/Poppins-Bold.otf"); }
+@font-face {
+  font-family: 'Port Lligat Sans';
+  font-display: auto;
+  src: url("font/PortLligatSans-Regular.ttf"); }
+@font-face {
+  font-family: Poppins;
+  font-display: auto;
+  src: url("font/Poppins-ExtraLight.otf"); }
+@font-face {
+  font-family: Poppins-language;
+  font-display: auto;
+  src: url("font/Poppins-Thin.otf"); }
+@font-face {
+  font-family: Poppins-Regular;
+  font-display: auto;
+  src: url("font/Poppins-Regular.otf"); }
+@font-face {
+  font-family: Poppins-Medium;
+  font-display: auto;
+  src: url("font/Poppins-Medium.otf"); }
+
+/*# sourceMappingURL=variable.css.map */

@@ -1,0 +1,62 @@
+$right-header-color: #242581;
+$content-1-color: #2026B2;
+$content-2-color: #4A0F73;
+$content-3-color: #F64C71;
+$content-4-color: #563D67;
+$footer-top-color: #2F2FA1;
+$footer-bottom-color: #0C0C5E;
+@font-face {
+  font-family: Poppins-h1;
+  font-display: auto;
+  src: url('font/Poppins-Bold.otf');
+}
+
+@font-face {
+  font-family: 'Port Lligat Sans';
+  font-display: auto;
+  src: url("font/PortLligatSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: Poppins;
+  font-display: auto;
+  src: url('font/Poppins-ExtraLight.otf');
+}
+
+@font-face {
+  font-family: Poppins-language;
+  font-display: auto;
+  src: url('font/Poppins-Thin.otf');
+}
+
+@font-face {
+  font-family: Poppins-Regular;
+  font-display: auto;
+  src: url('font/Poppins-Regular.otf');
+}
+
+@font-face {
+  font-family: Poppins-Medium;
+  font-display: auto;
+  src: url('font/Poppins-Medium.otf');
+}
+
+@mixin cv-styleText($size,$weight,$transform,$font) {
+  font: normal $weight $size/normal $font;
+  text-transform: $transform;
+  text-align: justify;
+  color: #FFFFFF;
+}
+
+@mixin cv-styleButton($top-margin,$min-height, $min-width, $color, $border-color) {
+  i {
+    margin-left: 6px;
+  }
+  margin-top: $top-margin;
+  min-height: $min-height;
+  min-width: $min-width;
+  background-color: $color;
+  border: 1px $border-color solid;
+}
+
+
