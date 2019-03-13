@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -19,24 +20,20 @@ class AdminController extends Controller
 
     public function index()
     {
-        if (!Auth::guard('admin')->check())
-        {
+        if (!Auth::guard('admin')->check()) {
             return redirect()->route('admin_login_form');
         }
-        else
-        {
+        else {
             return view('admin.home');
         }
     }
 
     public function indexAdmin()
     {
-        if (!Auth::guard('admin')->check())
-        {
+        if (!Auth::guard('admin')->check()) {
             return redirect()->route('admin_login_form');
         }
-        else
-        {
+        else {
             $admins = Admin::paginate(Admin::PAGINATION);
             return view('admin.admin', compact('admins'));
         }
@@ -44,12 +41,10 @@ class AdminController extends Controller
 
     public function create()
     {
-        if (Auth::guard('admin')->check())
-        {
+        if (Auth::guard('admin')->check()) {
             return view('admin.create');
         }
-        else
-        {
+        else {
             return redirect()->route('admin_login_form');
         }
     }
@@ -67,8 +62,7 @@ class AdminController extends Controller
 
     public function destroy($id)
     {
-        $admin = Admin::findOrFail($id);
-        $admin->delete();
+        Admin::findOrFail($id)->delete();
         return redirect()->route('admin_index');
     }
 
@@ -76,12 +70,10 @@ class AdminController extends Controller
     {
 
         $admin = Admin::findOrFail($id);
-        if (Auth::guard('admin')->check())
-        {
+        if (Auth::guard('admin')->check()) {
             return view('admin.change_password', compact('admin'));
         }
-        elseif(!Auth::guard('admin')->check())
-        {
+        elseif(!Auth::guard('admin')->check()) {
             return redirect()->route('admin_login_form');
         }
     }
@@ -89,16 +81,13 @@ class AdminController extends Controller
     public function patchChangePassword(ChangePasswordRequest $request,$id)
     {
         $admin = Admin::findOrFail($id);
-        $email = $admin->email;
-        if (Auth::guard('admin')->attempt(['email' => $email, 'password' => $request->oldPassword]))
-        {
+        if (Hash::check($request->old_password, $admin->password)) {
             $admin->password = bcrypt($request->password);
             $admin->save();
-            return redirect()->route('admins.index')->with('message','Bạn đã thay đổi mật khẩu thành công!');
+            return redirect()->route('admins.index')->with('message','You have successfully changed the password!');
         }
-        else
-        {
-            return redirect()->route('admin.change_password',$id)->with('message','Bạn đã nhập sai mật khẩu cữ!');
+        else {
+            return redirect()->route('admin.change_password',$id)->with('message','You entered the wrong password!');
 
         }
     }

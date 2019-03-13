@@ -18,12 +18,10 @@ class CvController extends Controller
      */
     public function index()
     {
-        if (!Auth::guard('admin')->check())
-        {
+        if (!Auth::guard('admin')->check()) {
             return redirect()->route('admin_login_form');
         }
-        else
-        {
+        else {
             $cvs = Cv::paginate(Cv::PAGINATION);
             return view('admin.cv', compact('cvs'));
         }
@@ -36,7 +34,12 @@ class CvController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::guard('user')->check()) {
+            return view('cv.create');
+        }
+        else {
+            return redirect()->route('login');
+        }
     }
 
     /**
@@ -47,12 +50,8 @@ class CvController extends Controller
      */
     public function store(Request $request)
     {
-        $userId = Auth::guard('user')->id();
-        $cv = new Cv;
-        $cv->title = $request->title;
-        $cv->user_id = $userId;
-        $cv->save();
-        return  redirect()->route('home');
+        $phone = $request->all();
+        return $phone;
     }
 
     /**
@@ -76,15 +75,19 @@ class CvController extends Controller
      */
     public function edit($id)
     {
-        $cv = Cv::findOrFail($id);
-        return view('cv.index', compact('cv'));
+        if (Auth::guard('user')->check()) {
+            $proSkills = Cv::findOrFail($id)->skills;
+            $cv = Cv::findOrFail($id);
+            return view('cv.edit', compact('cv','proSkills'));
+        }
+        else {
+            return redirect()->route('login');
+        }
     }
-
 
     public function updateAva(Request $request,$id)
     {
-        if($request->hasFile('myAva'))
-        {
+        if($request->hasFile('myAva')) {
             $cv = Cv::findOrFail($id);
             $file = $request->file('myAva');
             $file->move('image','ava'.$cv->id.'.png');
@@ -92,31 +95,11 @@ class CvController extends Controller
             $cv->image_mini = 'ava'.$cv->id.'.png';
             $cv->save();
             return redirect()->route('cvs.edit', compact('id'));
-
         }
-        else
-        {
+        else {
             return redirect()->route('cvs.edit', compact('id'));
         }
     }
-
-    public function updateInfo(Request $request,$id)
-    {
-        $cv = Cv::findOrFail($id);
-        $cv->first_name = $request->first_name;
-        $cv->last_name = $request->last_name;
-        $cv->position = $request->position;
-        $cv->date_of_birth = $request->date_of_birth;
-        $cv->phone = $request->phone;
-        $cv->email = $request->email;
-        $cv->facebook = $request->facebook;
-        $cv->skype = $request->skype;
-        $cv->chat_work = $request->chat_work;
-        $cv->address  = $request->address;
-        $cv->save();
-        return redirect()->route('cvs.edit', compact('id'));
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -145,7 +128,7 @@ class CvController extends Controller
      */
     public function destroy($id)
     {
-        $cv = Cv::findOrFail($id)->delete();
+        Cv::findOrFail($id)->delete();
         return redirect()->route('home');
     }
 }

@@ -36,11 +36,11 @@
                                 <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Old Password') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control{{ $errors->has('oldPassword') ? ' is-invalid' : '' }}" name="oldPassword" required>
+                                    <input id="password" type="password" class="form-control{{ $errors->has('old_password') ? ' is-invalid' : '' }}" name="old_password" required>
 
-                                    @if ($errors->has('oldPassword'))
+                                    @if ($errors->has('old_password'))
                                         <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('oldPassword') }}</strong>
+                                        <strong>{{ $errors->first('old_password') }}</strong>
                                     </span>
                                     @endif
                                 </div>

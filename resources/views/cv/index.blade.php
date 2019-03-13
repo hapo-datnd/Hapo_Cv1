@@ -33,7 +33,7 @@
 
 </head>
 <body>
-@include('cv.cv_layouts.header')
+    @include('cv.cv_layouts.header')
 <div class="content flex flex-column">
     @include('cv.cv_layouts.professional')
     @include('cv.cv_layouts.skills')

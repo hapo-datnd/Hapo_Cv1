@@ -5,16 +5,16 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Xin chào <b>{{ Auth::guard('admin')->user()->name}}</b></div>
+                    <div class="card-header">Hello <b>{{ Auth::guard('admin')->user()->name}}</b> !</div>
 
                     <div class="card-body">
-                        @if (session('status'))
+                        @if (session('message'))
                             <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
+                                {{ session('message') }}
                             </div>
                         @endif
 
-                        Đây là trang quản lý của Admin
+                        This is Admin Manager Page!
                     </div>
                 </div>
             </div>
