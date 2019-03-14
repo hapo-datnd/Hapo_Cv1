@@ -275,22 +275,14 @@ right-header {
       .content-2 .professional .item1 button {
         background-color: #0f001b;
         opacity: 0.5; }
-      .content-2 .professional .item1 .button-left {
-        border: none;
-        top: 0;
-        left: 0;
-        display: none; }
       .content-2 .professional .item1 .button-right {
         border: none;
         top: 0;
         right: 0;
         display: none; }
-    .content-2 .professional .item1:hover {
+    .content-2 .professional .item1:hover .button-right {
+      display: block;
       cursor: pointer; }
-      .content-2 .professional .item1:hover .button-right {
-        display: block; }
-      .content-2 .professional .item1:hover .button-left {
-        display: block; }
     .content-2 .professional .item2 {
       grid-column: 3; }
   .content-2 .personal {
@@ -337,6 +329,9 @@ right-header {
   width: 100%;
   margin-top: 25px;
   box-sizing: border-box; }
+  .graphic .percent-pro {
+    top: 40%;
+    left: 40%; }
 
 svg .donut-hole {
   fill: #4A0F73; }
@@ -376,15 +371,28 @@ svg text {
     position: relative;
     top: -30px;
     right: 10px; }
+  .personal-skill .btn-delete {
+    background-color: #0f001b;
+    opacity: 0.5;
+    border: none;
+    top: 0;
+    right: 0;
+    width: 30px;
+    display: none; }
   .personal-skill .personal-button {
     width: 100%; }
-  .personal-skill button {
+  .personal-skill .person-button {
     min-height: 36px;
     min-width: 108px;
     margin-top: 28px;
     background-color: #4A0F73;
     box-sizing: border-box;
     border: 1px #EF5B5B solid; }
+
+.person-skill:hover
+.btn-delete {
+  display: block;
+  cursor: pointer; }
 
 .content-3 {
   width: 100%;
