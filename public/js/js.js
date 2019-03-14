@@ -15,6 +15,7 @@ $(document).on('ready', function() {
     });
 });
 
+
 function updatePercentSkill(count) {
     if (count === 0) {
         let percentPro = $('#percent-pro').text();
@@ -60,6 +61,7 @@ function countGraphic(myClass,myGraphic) {
 
 
 
+
 function addButton() {
     let numberSkill1 = countGraphic("skillSum","skill-1");
 
@@ -81,6 +83,7 @@ function addButton() {
 									<p id="name-skill-pro`+id+`" contenteditable="true" class="skill-1-p">LARAVEL</p>
 								</div>
 							</div>`;
+
 
     let newAdd = addSkill(myElement1,"skill-1","skillSum",numberSkill1-1);
 }
@@ -109,7 +112,9 @@ function addButton2() {
 }
 
 let myElement3 = `<div class="main-3 flex-row flex" >
+
                                     <img class="img-1" alt="Icon Left" src="../../icon/Polygon.png">
+
                                     <div class="main-3-center">
 
                                     </div>
@@ -126,7 +131,9 @@ function addButton3() {
 }
 
 let myElement4 = `<div class="main-3 flex-row flex" >
+
                                     <img class="img-1" alt="Icon Left" src="../../icon/Polygon.png">
+
                                     <div class="main-3-center">
 
                                     </div>
@@ -140,6 +147,7 @@ let myElement4 = `<div class="main-3 flex-row flex" >
 function addButton4() {
     let numberEduExp = countGraphic("main-2-right","main-3");
     let newAdd = addSkill(myElement4,"main-3","main-2-right",numberEduExp-1);
+
 }
 
 function addButton5() {
@@ -151,6 +159,7 @@ function addButton5() {
         let img = "project2.png";
         let myElement8 = `<div class="grid-item item1 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -161,6 +170,7 @@ function addButton5() {
         let img = "project2.png";
         let myElement8 = `<div class="grid-item item2 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -171,6 +181,7 @@ function addButton5() {
         let img = "project.png";
         let myElement8 = `<div class="grid-item item1 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -181,6 +192,7 @@ function addButton5() {
         let img = "project.png";
         let myElement8 = `<div class="grid-item item1 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -191,6 +203,7 @@ function addButton5() {
         let img = "project.png";
         let myElement8 = `<div class="grid-item item1 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -201,6 +214,7 @@ function addButton5() {
         let img = "project.png";
         let myElement8 = `<div class="grid-item item2 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -211,6 +225,7 @@ function addButton5() {
         let img = "project2.png";
         let myElement8 = `<div class="grid-item item1 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -221,6 +236,7 @@ function addButton5() {
         let img = "project.png";
         let myElement8 = `<div class="grid-item item1 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -231,6 +247,7 @@ function addButton5() {
         let img = "project.png";
         let myElement8 = `<div class="grid-item item1 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -241,6 +258,7 @@ function addButton5() {
         let img = "project.png";
         let myElement8 = `<div class="grid-item item1 show-box `+showBox+` `+box+` flex justify-content-center align-items-center flex-row">
                             <img alt="Project" src="../../image/`+img+`">
+
                         </div>`;
         let newAdd = addSkill(myElement8,"show-box","sumProject",numberProject-1);
     }
@@ -249,6 +267,7 @@ function addButton5() {
 
 let myElement7 = `<div class="slide">
                                     <img alt="Image Footer" src="../../image/avafooter.png">
+
                                     <div class="quote flex flex-row">
                                         <div class="quote-1-1">
                                             <span class="quote-1">“</span><span class="p2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in</span>
@@ -279,5 +298,3 @@ function addButton6() {
 
     });
 }
-
-
