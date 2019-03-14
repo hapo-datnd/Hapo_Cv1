@@ -13,6 +13,6 @@ class Reference extends Model
 
     public function cv()
     {
-        $this->belongsTo(Cv::class);
+        return $this->belongsTo(Cv::class);
     }
 }

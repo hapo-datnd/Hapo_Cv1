@@ -11,10 +11,14 @@ class CvsTableSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0 ; $i< 3 ; $i ++) {
-            DB::table('cvs')->insert([
-                'user_id' => 6,
-            ]);
+        for ($j = 0;$j <7;$j++)
+        {
+            for ($i = 0 ; $i< 3 ; $i ++) {
+                DB::table('cvs')->insert([
+                    'user_id' => $j+1,
+                ]);
+            }
         }
+
     }
 }

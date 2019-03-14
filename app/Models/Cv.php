@@ -8,9 +8,13 @@ class Cv extends Model
 {
 
     protected $fillable = [
-        'first_name', 'last_name', 'date_of_birth','phone','email','facebook','skype','chat_work','address','image',
-        'position','summary','status','image_mini','professional_skill_table','personal_skill_title',
-        'work_experience_title','education_title',
+//        'first_name', 'last_name', 'date_of_birth','phone','email','facebook','skype','chat_work','address','image',
+//        'position','summary','status','image_mini','professional_skill_table','personal_skill_title',
+//        'work_experience_title','education_title',
+
+        'first_name', 'last_name', 'date_of_birth','phone','email','facebook','skype','chat_work','address',
+        'position','summary','status','professional_skill_table','personal_skill_title',
+        'work_experience_title','education_title','user_id',
     ];
 
     const ACTIVE = 1;
@@ -19,31 +23,31 @@ class Cv extends Model
 
     public function workExperiences()
     {
-        $this->hasMany(WorkExperience::class);
+        return $this->hasMany(WorkExperience::class);
     }
 
     public function education()
     {
-        $this->hasMany(Education::class);
+        return $this->hasMany(Education::class);
     }
 
     public function portfolios()
     {
-        $this->hasMany(Portfolio::class);
+        return $this->hasMany(Portfolio::class);
     }
 
     public function references()
     {
-        $this->hasMany(Reference::class);
+        return $this->hasMany(Reference::class);
     }
 
-    public function skill()
+    public function skills()
     {
-        $this->belongsToMany(Skill::class);
+        return $this->belongsToMany(Skill::class)->withPivot('percent','type');
     }
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }

@@ -338,6 +338,11 @@ right-header {
   margin-top: 25px;
   box-sizing: border-box; }
 
+  .graphic .percent-pro {
+    top: 40%;
+    left: 40%; }
+
+
 svg .donut-hole {
   fill: #4A0F73; }
 svg .donut-ring {

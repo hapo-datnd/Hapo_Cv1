@@ -52,16 +52,14 @@ class AdminLoginController extends Controller
 
             return redirect()->route('admins.index');
         }
-        else
-        {
+        else {
             return back()->withInput($request->only('email'))->with('message','Sai mật khẩu hoặc tài khoản!');
         }
     }
 
     public function logout()
     {
-        if(Auth::guard('admin')->check())
-        {
+        if(Auth::guard('admin')->check()) {
             Auth::guard('admin')->logout();
             return redirect()->route('admin_login_form');
         }
