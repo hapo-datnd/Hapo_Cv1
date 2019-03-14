@@ -8,11 +8,11 @@ class Reference extends Model
 {
 
     protected $fillable = [
-        'image','content',
+        'image', 'content',
     ];
 
     public function cv()
     {
-        $this->belongsTo(Cv::class);
+        return $this->belongsTo(Cv::class);
     }
 }

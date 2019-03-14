@@ -46,4 +46,6 @@ Route::prefix('/users')->group(function () {
 
 Route::prefix('/cvs')->group(function () {
     Route::patch('/update_status/{id}','Cv\CvController@updateStatus')->name('cvs.update_status');
+    Route::post('update_ava/{id}','Cv\CvController@updateAva')->name('cvs.update_ava');
+    Route::post('update_info/{id}','Cv\CvController@updateInfo')->name('cvs.update_info');
 });

@@ -17,12 +17,12 @@ class CreateEducationTable extends Migration
             $table->bigIncrements('id');
             $table->integer('start_time');
             $table->integer('end_time');
-            $table->unsignedBigInteger('school_id');
-            $table->foreign('school_id')->references('id')->on('schools');
             $table->string('position');
             $table->string('achievement');
             $table->unsignedBigInteger('cv_id');
             $table->foreign('cv_id')->references('id')->on('cvs');
+            $table->unsignedBigInteger('school_id');
+            $table->foreign('school_id')->references('id')->on('schools');
             $table->timestamps();
         });
     }

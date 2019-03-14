@@ -8,16 +8,16 @@ class WorkExperience extends Model
 {
 
     protected $fillable = [
-        'start_time', 'end_time','position','work_content',
+        'start_time', 'end_time', 'position', 'work_content',
     ];
 
     public function cv()
     {
-        $this->belongsTo(Cv::class);
+        return $this->belongsTo(Cv::class);
     }
 
     public function company()
     {
-        $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class);
     }
 }

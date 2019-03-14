@@ -42,7 +42,7 @@
                         </td>
                         <td class="row align-content-center justify-content-center m-0 border-0">
                             {{--<a href="users/{{$admin->id}}/edit"><button type="button" class="btn btn-outline-primary">Save</button></a>--}}
-                            @if($adminNow->type === $admin::SUPER_ADMIN)
+                            @if(Auth::guard('admin')->user()->type === $admin::SUPER_ADMIN)
                                 @if($admin->type === $admin::ADMIN)
                                     <form method="post" action="{{route('admins.destroy',$admin->id)}}" id="form_destroy_admin{{$admin->id}}">
                                         @method('DELETE')
@@ -79,14 +79,14 @@
     @elseif(Auth::guard('admin')->check())
         <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                {{ $adminNow->name}} <span class="caret"></span>
+                {{ Auth::guard('admin')->user()->name}} <span class="caret"></span>
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                @if($adminNow->type === $adminNow::SUPER_ADMIN)
+                @if(Auth::guard('admin')->user()->type === $admin::SUPER_ADMIN)
                     <a class="dropdown-item" href="{{ route('admins.create') }}">{{ __('Create admin') }}</a>
                 @endif
-                <a class="dropdown-item" href="{{ route('admin.change_password',$adminNow->id) }}">{{ __('Change password') }}</a>
+                <a class="dropdown-item" href="{{ route('admin.change_password',Auth::guard('admin')->id()) }}">{{ __('Change password') }}</a>
                 <a class="dropdown-item" href="{{ route('logout_admin') }}"
                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
