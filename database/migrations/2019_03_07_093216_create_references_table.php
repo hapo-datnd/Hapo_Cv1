@@ -13,7 +13,7 @@ class CreateReferencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cv_references', function (Blueprint $table) {
+        Schema::create('references', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('image');
             $table->string('content');

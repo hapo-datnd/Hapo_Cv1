@@ -17,12 +17,12 @@ class CreateWorkExperiencesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('start_time');
             $table->integer('end_time');
-            $table->unsignedBigInteger('company_id');
-            $table->foreign('company_id')->references('id')->on('companies');
             $table->string('position');
             $table->string('work_content');
             $table->unsignedBigInteger('cv_id');
             $table->foreign('cv_id')->references('id')->on('cvs');
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
     }

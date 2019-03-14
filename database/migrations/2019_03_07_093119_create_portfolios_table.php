@@ -24,9 +24,9 @@ class CreatePortfoliosTable extends Migration
             $table->string("position");
             $table->string("responsibilities");
             $table->string("technologies");
+            $table->boolean("is_feature")->default(0);
             $table->unsignedBigInteger('cv_id');
             $table->foreign('cv_id')->references('id')->on('cvs');
-            $table->boolean("is_feature")->default(0);
             $table->timestamps();
         });
     }

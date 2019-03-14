@@ -8,16 +8,16 @@ class Education extends Model
 {
 
     protected $fillable = [
-        'start_time', 'end_time','position','achievement',
+        'start_time', 'end_time', 'position', 'achievement',
     ];
 
     public function cv()
     {
-        $this->belongsTo(Cv::class);
+        return $this->belongsTo(Cv::class);
     }
 
     public function school()
     {
-        $this->belongsTo(School::class);
+        return $this->belongsTo(School::class);
     }
 }

@@ -14,12 +14,11 @@ class CreateCvSkillTable extends Migration
     public function up()
     {
         Schema::create('cv_skill', function (Blueprint $table) {
-            $table->unsignedBigInteger('skill_id');
-            $table->unsignedBigInteger('cv_id');
-            $table->foreign('skill_id')->references('id')->on('skills');
-            $table->foreign('cv_id')->references('id')->on('cvs');
-            $table->integer('type');
             $table->integer('percent');
+            $table->unsignedBigInteger('skill_id');
+            $table->foreign('skill_id')->references('id')->on('skills');
+            $table->unsignedBigInteger('cv_id');
+            $table->foreign('cv_id')->references('id')->on('cvs');
             $table->primary(array('cv_id','skill_id'));
             $table->timestamps();
         });
