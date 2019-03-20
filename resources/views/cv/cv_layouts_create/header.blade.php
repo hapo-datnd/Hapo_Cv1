@@ -8,7 +8,7 @@
 ?>
 <header>
     <div class="flex flex-wrap">
-        <left-header style="background-image: url({{asset('image/ava.png')}})"  class="flex-column float-left flex justify-content-center align-items-center float-left">
+        <left-header style="background-image: url({{asset('image/ava.png')}})" id="avatar-cv" class="flex-column float-left flex justify-content-center align-items-center float-left">
             <div class="language flex flex-row">
                 <a href="#"><p class="p1">English</p></a>
                 <a href="index.html"><p class="p2">Japanese</p></a>
@@ -31,38 +31,13 @@
                 <a href="index.html"><p class="p2">Japanese</p></a>
             </div>
             <div class="ava-hover">
-                <div style="background-image: url({{asset('image/ava.png')}})"
+                <div id="avatar-cv-mini" style="background-image: url({{asset('image/ava.png')}})"
                       class=" ava overflow-hidden flex-column flex justify-content-end align-items-center">
-                    <button type="button" class="bottom-ava flex flex-row justify-content-center align-content-center" data-toggle="modal" data-target="#myAvaModal">
-                        <i class="fas fa-camera"></i>
-                    </button>
-                    <div class="modal fade" id="myAvaModal">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Thay đổi ảnh đại diện</h4>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-
-                                <!-- Modal body -->
-                                <div class="modal-body">
-                                    <form action="" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="file" name="myAva">
-                                        <input type="submit" value="Lưu">
-                                    </form>
-                                </div>
-
-                                <!-- Modal footer -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                    <form id="form-ava" action="{{route('cvs.store')}}" method="post" class="bottom-ava flex position-relative" enctype="multipart/form-data">
+                        @csrf
+                        <i class="fas fa-camera position-absolute"></i>
+                        <input name="my-ava" class="custom-file-input" type="file" id="inputGroupFile01">
+                    </form>
                 </div>
             </div>
             <div class="name flex-column flex justify-content-center align-items-center">

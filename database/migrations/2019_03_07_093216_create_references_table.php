@@ -18,7 +18,7 @@ class CreateReferencesTable extends Migration
             $table->string('image');
             $table->string('content');
             $table->unsignedBigInteger('cv_id');
-            $table->foreign('cv_id')->references('id')->on('cvs');
+            $table->foreign('cv_id')->references('id')->on('cvs')->onDelete('cascade');
             $table->timestamps();
         });
     }

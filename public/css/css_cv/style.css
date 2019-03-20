@@ -121,13 +121,13 @@ button:hover {
 left-header {
   width: 50%;
   box-sizing: border-box;
-  background-size: 100% 100%; }
+  background-size: cover; }
   left-header .language {
     display: none; }
   left-header .title-header {
     margin-top: 424px; }
   left-header .before:after {
-    width: 236px;
+    width: 268px;
     bottom: 2px;
     background: #EF5B5B; }
   left-header .bottom-left-header {
@@ -165,7 +165,8 @@ right-header {
     border: 4px solid #FFFFFF;
     margin-top: 16px;
     box-sizing: border-box;
-    background-size: 100% 100%; }
+    background-size: cover;
+    background-position: center; }
     right-header .ava .bottom-ava {
       width: 150px;
       height: 20%;
@@ -173,16 +174,15 @@ right-header {
       opacity: 0.5;
       display: none;
       border: none; }
+      right-header .ava .bottom-ava i {
+        left: 47%;
+        top: 30%;
+        color: #FFFFFF; }
   right-header .ava-hover:hover .bottom-ava {
     display: flex;
     opacity: 0.8;
     color: #FFFFFF;
     cursor: pointer; }
-  right-header .modal-content {
-    font-family: Arial;
-    font-size: 16px;
-    font-weight: 600;
-    color: #1d2129; }
   right-header .name {
     padding-bottom: 10px;
     margin-top: 17px; }
@@ -275,22 +275,14 @@ right-header {
       .content-2 .professional .item1 button {
         background-color: #0f001b;
         opacity: 0.5; }
-      .content-2 .professional .item1 .button-left {
-        border: none;
-        top: 0;
-        left: 0;
-        display: none; }
       .content-2 .professional .item1 .button-right {
         border: none;
         top: 0;
         right: 0;
         display: none; }
-    .content-2 .professional .item1:hover {
+    .content-2 .professional .item1:hover .button-right {
+      display: block;
       cursor: pointer; }
-      .content-2 .professional .item1:hover .button-right {
-        display: block; }
-      .content-2 .professional .item1:hover .button-left {
-        display: block; }
     .content-2 .professional .item2 {
       grid-column: 3; }
   .content-2 .personal {
@@ -337,6 +329,9 @@ right-header {
   width: 100%;
   margin-top: 25px;
   box-sizing: border-box; }
+  .graphic .percent-pro {
+    top: 40%;
+    left: 40%; }
 
 svg .donut-hole {
   fill: #4A0F73; }
@@ -376,15 +371,28 @@ svg text {
     position: relative;
     top: -30px;
     right: 10px; }
+  .personal-skill .btn-delete {
+    background-color: #0f001b;
+    opacity: 0.5;
+    border: none;
+    top: 0;
+    right: 0;
+    width: 30px;
+    display: none; }
   .personal-skill .personal-button {
     width: 100%; }
-  .personal-skill button {
+  .personal-skill .person-button {
     min-height: 36px;
     min-width: 108px;
     margin-top: 28px;
     background-color: #4A0F73;
     box-sizing: border-box;
     border: 1px #EF5B5B solid; }
+
+.person-skill:hover
+.btn-delete {
+  display: block;
+  cursor: pointer; }
 
 .content-3 {
   width: 100%;
@@ -405,7 +413,7 @@ svg text {
     margin-top: 20px; }
   .left-content-3 .main {
     padding-left: 23px; }
-  .left-content-3 button {
+  .left-content-3 .content-3-btn {
     min-height: 36px;
     min-width: 198px;
     background-color: #F64C71;
@@ -436,8 +444,14 @@ svg text {
   width: 96.5%;
   margin-top: 25px;
   justify-content: center;
-  align-items: center;
-  justify-content: flex-start; }
+  align-items: center; }
+  .main-3 .button-delete-work {
+    right: 0;
+    top: 0;
+    width: 30px;
+    background-color: #c3c3c3;
+    border: none;
+    display: none; }
   .main-3 .img-1 {
     height: 12px;
     width: 8px; }
@@ -446,8 +460,24 @@ svg text {
     height: 2px;
     border-bottom: 1px #FFFFFF dashed; }
 
+.main-work:hover
+.button-delete-work {
+  display: block; }
+
 .main-3-1 {
   margin-top: 0px; }
+
+.main-education .button-delete-edu {
+  right: 0;
+  top: 0;
+  width: 30px;
+  background-color: #c3c3c3;
+  border: none;
+  display: none; }
+
+.main-education:hover
+.button-delete-edu {
+  display: block; }
 
 .main-3-box {
   width: 450px;
@@ -489,7 +519,7 @@ svg text {
     margin-top: 20px; }
   .right-content-3 .main {
     padding-left: 21px; }
-  .right-content-3 button {
+  .right-content-3 .content-3-btn-right {
     min-height: 36px;
     min-width: 151px;
     background-color: #F64C71;
@@ -517,6 +547,34 @@ svg text {
     grid-auto-rows: 200px;
     margin-top: 23px;
     padding: 0; }
+  .content-4 .item1 .button-delete-project, .content-4 .item2 .button-delete-project {
+    top: 0;
+    right: 0;
+    border: none;
+    display: none; }
+  .content-4 .item1:hover
+  .button-delete-project {
+    display: block;
+    cursor: pointer; }
+  .content-4 .item2:hover
+  .button-delete-project {
+    display: block;
+    cursor: pointer; }
+  .content-4 .item1 .button-edit-project, .content-4 .item2 .button-edit-project {
+    top: 0;
+    left: 0;
+    border: none;
+    display: none;
+    width: 25px;
+    height: 25px; }
+  .content-4 .item1:hover
+  .button-edit-project {
+    display: block;
+    cursor: pointer; }
+  .content-4 .item2:hover
+  .button-edit-project {
+    display: block;
+    cursor: pointer; }
   .content-4 .item2 {
     grid-row: span 2; }
   .content-4 .item3 {
@@ -577,6 +635,13 @@ img {
   width: 220px;
   height: 208px; }
 
+.modal-content {
+  color: black; }
+  .modal-content h1 {
+    color: black;
+    font-size: 25px;
+    text-align: center; }
+
 /*Begin footer css*/
 .footer-top {
   padding: 45px;
@@ -618,13 +683,31 @@ img {
   margin-top: 25px;
   box-sizing: border-box;
   padding: 0px 122px; }
-  .slide img {
+  .slide .ava-footer {
     width: 150px;
     height: 150px;
     margin-left: 35px;
     border-radius: 100%;
     border: 4px #FFFFFF solid;
-    float: left; }
+    float: left;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden; }
+    .slide .ava-footer .bottom-ava-footer {
+      width: 100%;
+      background-color: #333333;
+      height: 25%;
+      opacity: 0.5;
+      display: none; }
+      .slide .ava-footer .bottom-ava-footer i {
+        top: 30%;
+        left: 45%; }
+  .slide .ava-footer:hover
+  .bottom-ava-footer {
+    display: flex;
+    opacity: 0.8;
+    cursor: pointer; }
   .slide span {
     font: normal normal 80px/normal 'Port Lligat Sans';
     color: #FFFFFF; }
@@ -632,6 +715,16 @@ img {
     width: 7px;
     margin-left: 33px;
     margin-top: 75px; }
+  .slide .button-delete-slide {
+    top: 0;
+    right: 0;
+    background-color: #333333;
+    border: none;
+    display: none; }
+
+.slide:hover
+.button-delete-slide {
+  display: block; }
 
 .quote-1-1 {
   height: auto;

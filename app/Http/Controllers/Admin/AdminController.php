@@ -15,38 +15,23 @@ class AdminController extends Controller
 
     public function __construct()
     {
-
+        $this->middleware('auth.admin');
     }
 
     public function index()
     {
-        if (!Auth::guard('admin')->check()) {
-            return redirect()->route('admin_login_form');
-        }
-        else {
             return view('admin.home');
-        }
     }
 
     public function indexAdmin()
     {
-        if (!Auth::guard('admin')->check()) {
-            return redirect()->route('admin_login_form');
-        }
-        else {
             $admins = Admin::paginate(Admin::PAGINATION);
             return view('admin.admin', compact('admins'));
-        }
     }
 
     public function create()
     {
-        if (Auth::guard('admin')->check()) {
             return view('admin.create');
-        }
-        else {
-            return redirect()->route('admin_login_form');
-        }
     }
 
     public function store(CreateAdminRequest $request)
@@ -70,12 +55,7 @@ class AdminController extends Controller
     {
 
         $admin = Admin::findOrFail($id);
-        if (Auth::guard('admin')->check()) {
-            return view('admin.change_password', compact('admin'));
-        }
-        elseif(!Auth::guard('admin')->check()) {
-            return redirect()->route('admin_login_form');
-        }
+        return view('admin.change_password', compact('admin'));
     }
 
     public function patchChangePassword(ChangePasswordRequest $request,$id)

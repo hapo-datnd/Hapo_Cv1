@@ -8,7 +8,7 @@ class Education extends Model
 {
 
     protected $fillable = [
-        'start_time', 'end_time', 'position', 'achievement',
+        'start_time', 'end_time', 'position', 'achievement', 'cv_id', 'school_id',
     ];
 
     public function cv()

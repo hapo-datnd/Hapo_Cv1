@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Cv;
 
+use App\Models\Education;
+use App\Models\Portfolio;
+use App\Models\School;
 use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cv;
@@ -9,6 +12,10 @@ use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\WorkExperience;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Reference;
 
 class CvController extends Controller
 {
@@ -51,47 +58,70 @@ class CvController extends Controller
      */
     public function store(Request $request)
     {
-        $userID = Auth::id();
-        $user = User::findOrFail($userID);
-        $data = array_merge($request->all(), ["user_id" => $userID]);
+
+        if($request->hasFile('file')) {
+            $path = Storage::putFileAs(
+                'avatars', $request->file('file'), $request->image
+            );
+        }
+
+        $userId = Auth::id();
+        $data = array_merge($request->all(), ["user_id" => $userId]);
         $cv = Cv::create($data);
         $cv->save();
 
-        $nameSkillPro = $request->name_skill_pro;
-        $percentSkillPro = $request->percent_skill_pro;
-        $nameSkillPer = $request->name_skill_per;
-        $percentSkillPer = $request->percent_skill_per;
-
-        for ($i = 0; $i < count($nameSkillPro); $i++) {
-            if (!Skill::where('name', strtoupper($nameSkillPro[$i]))->exists()) {
-                $skill = Skill::create(['name'=>strtoupper($nameSkillPro[$i]), 'type'=>Skill::PROFESSIONAL]);
-                $skill->save();
-            }
-            if (!Skill::where('name', strtoupper($nameSkillPro[$i]))
-                    ->where('type', Skill::PROFESSIONAL)->exists()) {
-                $skill = Skill::create(['name'=>strtoupper($nameSkillPro[$i]), 'type'=>Skill::PROFESSIONAL]);
-                $skill->save();
-            }
-            $skillId = Skill::where('name', strtoupper($nameSkillPro[$i]))
-                            ->where('type', Skill::PROFESSIONAL)
-                            ->first()->id;
-            $cv->skills()->attach($cv->id,['percent'=>$percentSkillPro[$i],'skill_id'=>$skillId]);
+        if($request->hasFile('file')) {
+            $nameImageAva = $cv->id.'avatar.jpg';
+            $path = Storage::putFileAs('avatars', $request->file('file'), $nameImageAva);
+            $cv->image = $nameImageAva;
+            $cv->image_mini = $nameImageAva;
+            $cv->save();
         }
 
-        for ($i = 0; $i < count($nameSkillPer); $i++) {
-            if (!Skill::where('name', strtoupper($nameSkillPer[$i]))->exists()) {
-                $skill = Skill::create(['name'=>strtoupper($nameSkillPer[$i]), 'type'=>Skill::PERSONAL]);
-                $skill->save();
+        $skillPros = json_decode($request->skill_pros);
+        foreach ($skillPros as $skillPro) {
+            $skillId = Skill::firstOrCreate(['name' => strtoupper($skillPro->name), 'type' => Skill::PROFESSIONAL])->id;
+            $cv->skills()->attach($cv->id,['percent' => $skillPro->percent, 'skill_id' => $skillId]);
+        }
+
+        $skillPers = json_decode($request->skill_pers);
+        foreach ($skillPers as $skillPer) {
+            $skillId = Skill::firstOrCreate(['name' => strtoupper($skillPer->name), 'type' => Skill::PERSONAL])->id;
+            $cv->skills()->attach($cv->id,['percent' => $skillPer->percent, 'skill_id' => $skillId]);
+        }
+
+        $workExperiences = json_decode($request->work_experiences);
+        foreach ($workExperiences as $workExperience) {
+            $companyId = Company::firstOrCreate(['name' =>  strtoupper($workExperience->company_name),])->id;
+            $data = array_merge((array)$workExperience, ["company_id" => $companyId, 'cv_id' => $cv->id]);
+            WorkExperience::create($data);
+        }
+
+        $eduExperiences = json_decode($request->edu_experiences);
+        foreach ($eduExperiences as $eduExperience) {
+            $schoolId = School::firstOrCreate(['name' =>  strtoupper($eduExperience->school_name),])->id;
+            $data = array_merge((array)$eduExperience, ["school_id" => $schoolId, 'cv_id' => $cv->id]);
+            Education::create($data);
+        }
+
+        $portfolios = json_decode($request->portfolios);
+        foreach ($portfolios as $portfolio) {
+            $data = array_merge((array)$portfolio, ['cv_id' => $cv->id]);
+            Portfolio::create($data);
+        }
+
+        $content = json_decode($request->content_slide);
+        for ($i = 0; $i < count($content); $i++) {
+            $ref = Reference::create(["content"=>$content[$i], "image" => "default.jpg", "cv_id" => $cv->id]);
+            $files = $request->file('image_slide');
+            if (!empty($files)) {
+                $nameImage = 'avafooter'.$ref->id.'a'.$cv->id.'.jpg';
+                $path = Storage::putFileAs(
+                    'imageRef', $files[$i] , $nameImage
+                );
+                $ref->image = $nameImage;
+                $ref->save();
             }
-            if (!Skill::where('name', strtoupper($nameSkillPer[$i]))
-                ->where('type', Skill::PERSONAL)->exists()) {
-                $skill = Skill::create(['name'=>strtoupper($nameSkillPer[$i]), 'type'=>Skill::PERSONAL]);
-                $skill->save();
-            }
-            $skillId = Skill::where('name', strtoupper($nameSkillPer[$i]))
-                            ->where('type', Skill::PERSONAL)
-                            ->first()->id;
-            $cv->skills()->attach($cv->id,['percent'=>$percentSkillPer[$i], 'skill_id'=>$skillId]);
         }
     }
 
@@ -126,23 +156,6 @@ class CvController extends Controller
         }
     }
 
-
-    //chỗ này em chưa xử lý nên mọi người có thể ignore nó đi ạ!
-    public function updateAva(Request $request,$id)
-    {
-        if($request->hasFile('myAva')) {
-            $cv = Cv::findOrFail($id);
-            $file = $request->file('myAva');
-            $file->move('image','ava'.$cv->id.'.png');
-            $cv->image = 'ava'.$cv->id.'.png';
-            $cv->image_mini = 'ava'.$cv->id.'.png';
-            $cv->save();
-            return redirect()->route('cvs.edit', compact('id'));
-        }
-        else {
-            return redirect()->route('cvs.edit', compact('id'));
-        }
-    }
     /**
      * Update the specified resource in storage.
      *

@@ -20,9 +20,9 @@ class CreateEducationTable extends Migration
             $table->string('position');
             $table->string('achievement');
             $table->unsignedBigInteger('cv_id');
-            $table->foreign('cv_id')->references('id')->on('cvs');
+            $table->foreign('cv_id')->references('id')->on('cvs')->onDelete('cascade');
             $table->unsignedBigInteger('school_id');
-            $table->foreign('school_id')->references('id')->on('schools');
+            $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade');
             $table->timestamps();
         });
     }

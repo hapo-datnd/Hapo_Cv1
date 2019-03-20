@@ -20,9 +20,9 @@ class CreateWorkExperiencesTable extends Migration
             $table->string('position');
             $table->string('work_content');
             $table->unsignedBigInteger('cv_id');
-            $table->foreign('cv_id')->references('id')->on('cvs');
+            $table->foreign('cv_id')->references('id')->on('cvs')->onDelete('cascade');
             $table->unsignedBigInteger('company_id');
-            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@ class Reference extends Model
 {
 
     protected $fillable = [
-        'image', 'content',
+        'image', 'content', 'cv_id',
     ];
 
     public function cv()

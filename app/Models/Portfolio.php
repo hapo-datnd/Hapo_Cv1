@@ -9,7 +9,7 @@ class Portfolio extends Model
 
     protected $fillable = [
         'start_time', 'name', 'end_time', 'customer', 'position', 'description', 'team_size', 'responsibilities',
-        'technologies', 'is_feature',
+        'technologies', 'is_feature', 'cv_id',
     ];
 
     public function cv()

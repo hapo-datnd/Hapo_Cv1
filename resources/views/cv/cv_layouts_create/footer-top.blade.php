@@ -13,29 +13,18 @@
                 <h2><span class="before">referen</span><span class="behind">ces</span></h2>
                 <div class="slide-bottom">
                     <div class="slick">
-                        <div class="slide">
-                            <img alt="Image Footer" src="{{asset('image/avafooter.png')}}">
-                            <div class="quote flex flex-row">
-                                <div class="quote-1-1">
-                                    <span class="quote-1">“</span><span class="p2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in</span>
-                                    <span class="quote-2">”</span>
-                                </div>
+                        <div class="slide position-relative" id="number-slide0">
+                            <button type="button" onclick="deleteSlideButton(0)" class="position-absolute button-delete-slide"><i class="m-0 fas fa-minus"></i></button>
+                            <div class="ava-footer flex flex-column-reverse" id="ava-footer0" style="background-image: url({{asset('image/avafooter.png')}})">
+                                <form id="" action="" method="post" class="bottom-ava-footer flex position-relative" enctype="multipart/form-data">
+                                    @csrf
+                                    <i  class="fas fa-camera position-absolute"></i>
+                                    <input name="my-ava-footer0" class="custom-file-input input-group-file" id="input-file0" type="file">
+                                </form>
                             </div>
-                        </div>
-                        <div class="slide">
-                            <img alt="Image Footer" src="{{asset('image/avafooter.png')}}">
                             <div class="quote flex flex-row">
                                 <div class="quote-1-1">
-                                    <span class="quote-1">“</span><span class="p2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in</span>
-                                    <span class="quote-2">”</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <img alt="Image Footer" src="{{asset('image/avafooter.png')}}">
-                            <div class="quote flex flex-row">
-                                <div class="quote-1-1">
-                                    <span class="quote-1">“</span><span class="p2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in</span>
+                                    <span class="quote-1">“</span><span contenteditable="true" id="content-slide0" class="get-content-slide p2">Lorem ipsum dolor sit amet, Duis autem vel eum iriure dolor in hendrerit in</span>
                                     <span class="quote-2">”</span>
                                 </div>
                             </div>
