@@ -125,20 +125,29 @@ button:hover {
 left-header {
   width: 50%;
   box-sizing: border-box;
-  //background-image: url("image/ava.png");
   background-size: cover;
+
+    input {
+        background: none;
+        color: #FFFFFF;
+        font-size: 20px;
+        border: none;
+    }
+
+    input:hover {
+        outline: 1px #FFFFFF dashed;
+    }
+
   .language {
     display: none;
   }
 
+    .name-first {
+        border-bottom: 2px #EF5B5B solid;
+    }
+
   .title-header {
     margin-top: 424px;
-  }
-
-  .before:after {
-    width: 268px;
-    bottom: 2px;
-    background: #EF5B5B;
   }
 
   .bottom-left-header {
@@ -176,10 +185,35 @@ right-header {
   box-sizing: border-box;
   padding: 0px 114px 45px 114px;
 
+    input {
+        background-color: #242581;
+        color: #FFFFFF;
+        border: none;
+        resize: horizontal;
+    }
+
+    .input-top {
+        width: 100px;
+        text-transform: uppercase;
+    }
+
+    .birth-day {
+        margin-left: 65px;
+    }
+
+    input:hover {
+        outline: 1px #FFFFFF dashed;
+    }
+
   .language {
     margin-top: 20px;
   }
 
+    td {
+        input {
+            width: 100%;
+        }
+    }
   .ava {
     width: 150px;
     height: 150px;
@@ -278,7 +312,7 @@ right-header {
 .content-1 {
   width: 100%;
   background-color: $content-1-color;
-  padding: 45px 0px;
+  padding: 45px 0;
   box-sizing: border-box;
 
   .before:after {
@@ -312,7 +346,7 @@ right-header {
 .content-2 {
   width: 100%;
   background-color: $content-2-color;
-  padding: 45px 0px;
+  padding: 45px 0;
   box-sizing: border-box;
 
   .professional {
@@ -494,9 +528,8 @@ svg {
   }
 
   .percent-text-1 {
-    position: relative;
-    top: -30px;
-    right: 10px;
+    top: -33px;
+    right: -15px;
   }
 
     .btn-delete {
@@ -533,7 +566,7 @@ svg {
 .content-3 {
   width: 100%;
   background-color: $content-3-color;
-  padding: 45px 0px;
+  padding: 45px 0;
   box-sizing: border-box;
 }
 
@@ -570,30 +603,30 @@ svg {
 
 .main {
   width: 100%;
-  margin-top: 25px;
   box-sizing: border-box;
 }
 
 .main-1 {
   border-top: 1px #FFFFFF solid;
-  padding-bottom: 0px;
+  padding-bottom: 0;
   float: left;
   height: 2px;
   width: 15px;
+    margin-top: 25px;
 }
 
 .main-2 {
   margin-left: -8px;
   width: 96.5%;
   border-left: 1px #FFFFFF solid;
-  padding-bottom: 25px;
+  margin-top: 25px;
   float: left;
   box-sizing: border-box;
 }
 
 .main-3 {
   width: 96.5%;
-  margin-top: 25px;
+  margin-bottom: 25px;
   justify-content: center;
   align-items: center;
 
@@ -621,10 +654,6 @@ svg {
 .main-work:hover
 .button-delete-work {
     display: block;
-}
-
-.main-3-1 {
-  margin-top: 0px;
 }
 
 .main-education {
@@ -722,6 +751,10 @@ svg {
     background: #EF5B5B;
   }
 
+    .show-box:hover {
+        cursor: pointer;
+    }
+
   .behind:after {
     width: 41px;
     height: 2px;
@@ -807,16 +840,24 @@ svg {
 
   li {
     width: auto;
-    font: normal bold 14px/normal Poppins-Medium;
     letter-spacing: 0.05em;
-    text-transform: uppercase;
     color: #FFFFFF;
     float: left;
-    margin-left: 28px;
+      button {
+          background: #563D67;
+          border: none;
+          text-transform: uppercase;
+          font: normal bold 14px/normal Poppins-Medium;
+          margin-left: 28px;
+      }
+
+      button:focus {
+          text-decoration-line: underline;
+      }
   }
 
-  a:hover {
-    text-decoration-line: underline !important;
+  button:hover {
+    text-decoration-line: underline;
   }
 }
 

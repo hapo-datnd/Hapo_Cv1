@@ -122,14 +122,19 @@ left-header {
   width: 50%;
   box-sizing: border-box;
   background-size: cover; }
+  left-header input {
+    background: none;
+    color: #FFFFFF;
+    font-size: 20px;
+    border: none; }
+  left-header input:hover {
+    outline: 1px #FFFFFF dashed; }
   left-header .language {
     display: none; }
+  left-header .name-first {
+    border-bottom: 2px #EF5B5B solid; }
   left-header .title-header {
     margin-top: 424px; }
-  left-header .before:after {
-    width: 268px;
-    bottom: 2px;
-    background: #EF5B5B; }
   left-header .bottom-left-header {
     height: 60px;
     width: 100%;
@@ -156,8 +161,22 @@ right-header {
   background-color: #242581;
   box-sizing: border-box;
   padding: 0px 114px 45px 114px; }
+  right-header input {
+    background-color: #242581;
+    color: #FFFFFF;
+    border: none;
+    resize: horizontal; }
+  right-header .input-top {
+    width: 100px;
+    text-transform: uppercase; }
+  right-header .birth-day {
+    margin-left: 65px; }
+  right-header input:hover {
+    outline: 1px #FFFFFF dashed; }
   right-header .language {
     margin-top: 20px; }
+  right-header td input {
+    width: 100%; }
   right-header .ava {
     width: 150px;
     height: 150px;
@@ -226,7 +245,7 @@ right-header {
 .content-1 {
   width: 100%;
   background-color: #2026B2;
-  padding: 45px 0px;
+  padding: 45px 0;
   box-sizing: border-box; }
   .content-1 .before:after {
     width: 197px;
@@ -249,7 +268,7 @@ right-header {
 .content-2 {
   width: 100%;
   background-color: #4A0F73;
-  padding: 45px 0px;
+  padding: 45px 0;
   box-sizing: border-box; }
   .content-2 .professional {
     box-sizing: border-box;
@@ -368,9 +387,8 @@ svg text {
   .personal-skill .percent-1 {
     position: relative; }
   .personal-skill .percent-text-1 {
-    position: relative;
-    top: -30px;
-    right: 10px; }
+    top: -33px;
+    right: -15px; }
   .personal-skill .btn-delete {
     background-color: #0f001b;
     opacity: 0.5;
@@ -397,7 +415,7 @@ svg text {
 .content-3 {
   width: 100%;
   background-color: #F64C71;
-  padding: 45px 0px;
+  padding: 45px 0;
   box-sizing: border-box; }
 
 .left-content-3 {
@@ -422,27 +440,27 @@ svg text {
 
 .main {
   width: 100%;
-  margin-top: 25px;
   box-sizing: border-box; }
 
 .main-1 {
   border-top: 1px #FFFFFF solid;
-  padding-bottom: 0px;
+  padding-bottom: 0;
   float: left;
   height: 2px;
-  width: 15px; }
+  width: 15px;
+  margin-top: 25px; }
 
 .main-2 {
   margin-left: -8px;
   width: 96.5%;
   border-left: 1px #FFFFFF solid;
-  padding-bottom: 25px;
+  margin-top: 25px;
   float: left;
   box-sizing: border-box; }
 
 .main-3 {
   width: 96.5%;
-  margin-top: 25px;
+  margin-bottom: 25px;
   justify-content: center;
   align-items: center; }
   .main-3 .button-delete-work {
@@ -463,9 +481,6 @@ svg text {
 .main-work:hover
 .button-delete-work {
   display: block; }
-
-.main-3-1 {
-  margin-top: 0px; }
 
 .main-education .button-delete-edu {
   right: 0;
@@ -535,6 +550,8 @@ svg text {
     width: 72px;
     height: 2px;
     background: #EF5B5B; }
+  .content-4 .show-box:hover {
+    cursor: pointer; }
   .content-4 .behind:after {
     width: 41px;
     height: 2px;
@@ -591,14 +608,19 @@ svg text {
   margin-top: 21px; }
   .menu li {
     width: auto;
-    font: normal bold 14px/normal Poppins-Medium;
     letter-spacing: 0.05em;
-    text-transform: uppercase;
     color: #FFFFFF;
-    float: left;
-    margin-left: 28px; }
-  .menu a:hover {
-    text-decoration-line: underline !important; }
+    float: left; }
+    .menu li button {
+      background: #563D67;
+      border: none;
+      text-transform: uppercase;
+      font: normal bold 14px/normal Poppins-Medium;
+      margin-left: 28px; }
+    .menu li button:focus {
+      text-decoration-line: underline; }
+  .menu button:hover {
+    text-decoration-line: underline; }
 
 .show-box-1 img {
   width: 159px;

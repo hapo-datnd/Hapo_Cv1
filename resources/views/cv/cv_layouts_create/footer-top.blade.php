@@ -19,12 +19,12 @@
                                 <form id="" action="" method="post" class="bottom-ava-footer flex position-relative" enctype="multipart/form-data">
                                     @csrf
                                     <i  class="fas fa-camera position-absolute"></i>
-                                    <input name="my-ava-footer0" class="custom-file-input input-group-file" id="input-file0" type="file">
+                                    <input name="my-ava-footer0" class="custom-file-input input-group-file" id="inputFile0" type="file">
                                 </form>
                             </div>
                             <div class="quote flex flex-row">
                                 <div class="quote-1-1">
-                                    <span class="quote-1">“</span><span contenteditable="true" id="content-slide0" class="get-content-slide p2">Lorem ipsum dolor sit amet, Duis autem vel eum iriure dolor in hendrerit in</span>
+                                    <span class="quote-1">“</span><span onblur="validateInfoExp(this.id, 0, 150)" contenteditable="true" id="contentSlide0" class="get-content-slide p2">Lorem ipsum dolor sit amet, Duis autem vel eum iriure dolor in hendrerit in</span>
                                     <span class="quote-2">”</span>
                                 </div>
                             </div>

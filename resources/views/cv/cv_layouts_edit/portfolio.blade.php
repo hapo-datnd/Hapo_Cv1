@@ -13,32 +13,47 @@
             <h2 class="col-12"><span class="before">portf</span><span class="behind">olio</span></h2>
             <div class="menu col-12">
                 <ul>
-                    <li><button>all</button></li>
-                    <li><button>feature</button></li>
-                    <li><button>2018</button></li>
-                    <li><button>2017</button></li>
+                    <li><button type="button" onclick="selectAllProject()">all</button></li>
+                    <li><button type="button" onclick="selectProjectByFeature()">feature</button></li>
+                    @if(count($cv->portfolios))
+                        @foreach($cv->portfolios as $portfolio)
+                            <?php
+                            $year_start[] = (int)substr($portfolio->start_time,0,4);
+                            $year_end[] = (int)substr($portfolio->end_time,0,4);
+                            $years = array_unique(array_merge($year_start, $year_end));
+                            sort($years)
+                            ?>
+                        @endforeach
+                        @foreach($years as $year)
+                            <li><button type="button" onclick="selectByProjectYear({{$year}})">{{$year}}</button></li>
+                        @endforeach
+                    @endif
                     <li><button><i class="fas fa-angle-double-right"></i></button></li>
                 </ul>
             </div>
             <div class="col-12 sumProject grid-container">
-                <div  id="project1" style="background: #FD7038" class="grid-item position-relative item1 show-box show-box-1 box-1-1 flex justify-content-center align-items-center flex-row">
-                    <form class="d-none" action="">
-                        <input name="project-name" aria-label="project"  type="text" id="projectName1" class="get-id-final-project get-project-name" value="CV Project">
-                        <input name="customer" aria-label="project" type="text" id="customer1" class="get-customer" value="Haposoft">
-                        <input name="time-start" aria-label="project" type="date" id="timeStart1" class="get-time-start" value="2018-08-18">
-                        <input name="time-end" aria-label="project" type="date" id="timeEnd1" class="get-time-end" value="2018-08-18">
-                        <input name="description" aria-label="project" type="text" id="description1" class="get-description" value="DATN">
-                        <input name="position" aria-label="project" type="text" id="position1" class="get-position" value="Project manager">
-                        <input name="responsibility" aria-label="project" type="text" id="responsibility1" class="get-responsibility" value="Leader">
-                        <input name="technology" aria-label="project" type="text" id="technology1" class="get-technology" value="Laravel">
-                        <input name="team-size" aria-label="project" type="number" id="teamSize1" class="get-team-size" value="6">
-                        <input  aria-label="project" id="feature1" name="feature" class="get-feature" value="0">
-                        <input name="color" type="color" aria-label="project" class="get-color-display" id="color1" value='#FD7038'>
-                        <input  aria-label="project" id="size1" name="size" class="get-size-display" value="1">
-                    </form>
-                    <button type="button" onclick="deleteProjectButton(1)" class="position-absolute button-delete-project"><i class="m-0 fas fa-minus"></i></button>
-                    <img onclick="setAttributeToModal(1)" data-toggle="modal" data-target="#myModal" alt="Project" src="{{asset('image/project.png')}}">
-                </div>
+                @if(count($cv->portfolios))
+                    @foreach($cv->portfolios as $portfolio)
+                        <div  id="project{{$portfolio->id}}" style="background: {{$portfolio->color_display}}" class="grid-item position-relative item{{$portfolio->size_display}} show-box show-box-{{$portfolio->size_display}} box-1-1 flex justify-content-center align-items-center flex-row">
+                            <form class="d-none" action="">
+                                <input name="project-name" aria-label="project"  type="text" id="projectName{{$portfolio->id}}" class="get-id-final-project get-project-name" value="{{$portfolio->name}}">
+                                <input name="customer" aria-label="project" type="text" id="customer{{$portfolio->id}}" class="get-customer" value="{{$portfolio->customer}}">
+                                <input name="time-start" aria-label="project" type="date" id="timeStart{{$portfolio->id}}" class="get-time-start" value="{{$portfolio->start_time}}">
+                                <input name="time-end" aria-label="project" type="date" id="timeEnd{{$portfolio->id}}" class="get-time-end" value="{{$portfolio->end_time}}">
+                                <input name="description" aria-label="project" type="text" id="description{{$portfolio->id}}" class="get-description" value="{{$portfolio->description}}">
+                                <input name="position" aria-label="project" type="text" id="position{{$portfolio->id}}" class="get-position" value="{{$portfolio->position}}">
+                                <input name="responsibility" aria-label="project" type="text" id="responsibility{{$portfolio->id}}" class="get-responsibility" value="{{$portfolio->responsibilities}}">
+                                <input name="technology" aria-label="project" type="text" id="technology{{$portfolio->id}}" class="get-technology" value="{{$portfolio->technologies}}">
+                                <input name="team-size" aria-label="project" type="number" id="teamSize{{$portfolio->id}}" class="get-team-size" value="{{$portfolio->team_size}}">
+                                <input  aria-label="project" id="feature{{$portfolio->id}}" name="feature" class="get-feature" value="{{$portfolio->is_feature}}">
+                                <input name="color" type="color" aria-label="project" class="get-color-display" id="color{{$portfolio->id}}" value='{{$portfolio->color_display}}'>
+                                <input  aria-label="project" id="size{{$portfolio->id}}" name="size" class="get-size-display" value="{{$portfolio->size_display}}">
+                            </form>
+                            <button type="button" onclick="deleteProjectButton({{$portfolio->id}})" class="position-absolute button-delete-project"><i class="m-0 fas fa-minus"></i></button>
+                            <img onclick="setAttributeToModal({{$portfolio->id}})" data-toggle="modal" data-target="#myModal" alt="Project" src="{{asset('image/project.png')}}">
+                        </div>
+                    @endforeach
+                @endif
                 <div class="grid-item item3 show-box-1 flex justify-content-center align-items-center flex-column">
                     <button type="button" onclick="addButton5()" class="flex-row flex justify-content-center align-items-center">
                         Add project

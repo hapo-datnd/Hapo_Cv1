@@ -59,7 +59,7 @@
                 </tbody>
             </table>
             <div>
-                {{ $admins->links() }}
+                {{ $admins->onEachSide(2)->links() }}
             </div>
         </div>
     </div>

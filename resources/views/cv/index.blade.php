@@ -33,15 +33,15 @@
 
 </head>
 <body>
-    @include('cv.cv_layouts.header')
+    @include('cv.cv_layouts_edit.header')
 <div class="content flex flex-column">
-    @include('cv.cv_layouts.professional')
-    @include('cv.cv_layouts.skills')
-    @include('cv.cv_layouts.experience')
-    @include('cv.cv_layouts.portfolio')
+    @include('cv.cv_layouts_edit.professional')
+    @include('cv.cv_layouts_edit.skills')
+    @include('cv.cv_layouts_edit.experience')
+    @include('cv.cv_layouts_edit.portfolio')
 </div>
 <footer class="flex-column flex">
-    @include('cv.cv_layouts.footer-top')
+    @include('cv.cv_layouts_edit.footer-top')
     <div class="footer-bottom flex-row flex justify-content-center align-items-center">
         <p class="p1">2019 Flatos.com All right reserved.</p>
     </div>

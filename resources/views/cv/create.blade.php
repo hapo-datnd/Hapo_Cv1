@@ -14,10 +14,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-
     <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap-4.2.1-dist/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/css_cv/reset.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/css_cv/style.css')}}">
@@ -25,10 +22,6 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/slick/slick.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/slick/slick-theme.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/css_cv/responsive.css')}}">
-
-    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
-    {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>--}}
-    {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>--}}
     <script src="{{ asset('js/app.js') }}"></script>
 @endsection
 @section('center-header')
@@ -38,6 +31,13 @@
         <button type="button" id="btnSaveSubmit" class="btn-outline-success btn">Save</button>
     </div>
 @endsection
+@if(count($errors) > 0)
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $err)
+            {{$err}}<br>
+        @endforeach
+    </div>
+@endif
 @section('content')
     @include('cv.cv_layouts_create.header')
     <div class="content flex flex-column">
@@ -52,54 +52,383 @@
             <p class="p1">2019 Flatos.com All right reserved.</p>
         </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    @include('cv.validate')
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="{{ asset('css/slick/slick.js') }}"></script>
     <script src="{{ asset('js/js.js') }}"></script>
     <script>
 
-        function setAttributeToModal(id) {
-            $('#header-modal').html($('#project-name'+id).val());
-            $('#name-project-modal').val($('#project-name'+id).val());
-            $('#customer-project-modal').val($('#customer'+id).val());
-            $('#time-start-project-modal').val($('#time-start'+id).val());
-            $('#time-end-project-modal').val($('#time-end'+id).val());
-            $('#description-project-modal').val($('#description'+id).val());
-            $('#position-project-modal').val($('#position'+id).val());
-            $('#responsibility-project-modal').val($('#responsibility'+id).val());
-            $('#technology-project-modal').val($('#technology'+id).val());
-            $('#team-size-modal').val($('#team-size'+id).val());
-            if ($('#feature'+id).val() === '1') {
-                $("#feature-project-modal").val('1');
+        function validateInfo(id, lengthMin, lengthMax) {
+            let info = '';
+            switch (id) {
+                case 'position':
+                    info = 'Position';
+                    break;
+                case 'phone':
+                    info = 'Phone';
+                    break;
+                case 'email':
+                    info = 'Email';
+                    break;
+                case 'facebook':
+                    info = 'Facebook';
+                    break;
+                case 'skype':
+                    info = 'skype';
+                    break;
+                case 'chatWork':
+                    info = 'Chat Work';
+                    break;
+                case 'address':
+                    info = 'Address';
+                    break;
             }
-            if ($('#feature'+id).val() === '0') {
-                $("#feature-project-modal").val('0');
+            let $value = $(`#${id}`).val();
+            if ($value.trim().length <= lengthMin) {
+                alert(`${info} is required!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+            if ($value.trim().length > lengthMax) {
+                alert(`${info} is too long!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+        }
+
+        function validatetextInfo(id, lengthMin, lengthMax) {
+            let title = '';
+            switch (id) {
+                case 'summary':
+                    title = 'Summary';
+                    break;
+                case 'professionalSkillTitle':
+                    title = 'Professional Skill Title';
+                    break;
+                case 'personalSkillTitle':
+                    title = 'Personal Skill Title';
+                    break;
+                case 'workExperienceTitle':
+                    title = 'Work Experience Title';
+                    break;
+                case 'educationTitle':
+                    title = 'Education Title';
+                    break;
+            }
+            let $value = $(`#${id}`).text();
+            if ($value.trim().length <= lengthMin) {
+                alert(`${title} is required!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+            if ($value.trim().length > lengthMax) {
+                alert(`${title} is too long!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+        }
+
+        function validateTeamSize(id, Min, Max) {
+            let $value = $(`#${id}`).val();
+            if ($value < Min) {
+                alert(`Team size must more than 0!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+            if ($value > Max) {
+                alert(`Team size is too big!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+        }
+
+        function validateInfoModal(id, lengthMin, lengthMax) {
+
+            let titleModal = '';
+            switch (id) {
+                case 'nameProjectModal':
+                    titleModal = 'Project name';
+                    break;
+                case 'customerProjectModal':
+                    titleModal = 'Customer';
+                    break;
+                case 'descriptionProjectModal':
+                    titleModal = 'Project description';
+                    break;
+                case 'positionProjectModal':
+                    titleModal = 'Project position';
+                    break;
+                case 'responsibilityProjectModal':
+                    titleModal = 'Project responsibility';
+                    break;
+                case 'technologyProjectModal':
+                    titleModal = 'Project technology';
+                    break;
+            }
+
+            let $value = $(`#${id}`).val();
+            if ($value.trim().length <= lengthMin) {
+                alert(`${titleModal} is required!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+            if ($value.trim().length > lengthMax) {
+                alert(`${titleModal} is too long!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+        }
+
+        function validateInfoExp(id, lengthMin, lengthMax) {
+            const numberCharacterShortest = 11;
+            let value = id.substring(0,numberCharacterShortest);
+            let titleExp = '';
+            switch (value) {
+                case 'companyName':
+                    titleExp = 'Company name';
+                    break;
+                case 'companyPosi':
+                    titleExp = 'Company position';
+                    break;
+                case 'workContent':
+                    titleExp = 'Work content';
+                    break;
+                case 'educationNa':
+                    titleExp = 'Education name';
+                    break;
+                case 'educationPo':
+                    titleExp = 'Education position';
+                    break;
+                case 'achievement':
+                    titleExp = 'Education achievement';
+                    break;
+                case 'contentSlid':
+                    titleExp = 'Slide content';
+                    break;
+            }
+
+            let $value = $(`#${id}`).text();
+            if ($value.trim().length <= lengthMin) {
+                alert(`${titleExp} is required!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+            if ($value.trim().length > lengthMax) {
+                alert(`${titleExp} is too long!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+        }
+
+        function validateTimeExperience(id) {
+            let $time = $(`#${id}`).text();
+            if ($time.trim().length <= 0) {
+                alert('Time is required!');
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+            let numberYear = Number($time);
+
+            if (isNaN(numberYear)) {
+                alert('You must type a number!');
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+        }
+
+
+
+        function validateNameProSkill(id) {
+
+            let alertSkill = 'Name skill';
+
+            let $value = $(`#${id}`).text();
+            if ($value.trim().length <= 0) {
+                alert(`${alertSkill} is required!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+            if ($value.trim().length > 15) {
+                alert(`${alertSkill} is too long!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+
+            let nameSkillPro = '';
+            let nameSkillproNow = $(`#${id}`).text();
+            let numberSameName = 0;
+
+            let numberSkillPro = countGraphic("skillSum","skill-1");
+            for (let i = 0; i < numberSkillPro; i++) {
+                let idNameSkillPro = $('.skill-1-p')[i].id;
+                nameSkillPro = ($('#'+idNameSkillPro).text());
+                if (nameSkillPro === nameSkillproNow) {
+                    numberSameName = numberSameName+1;
+                }
+            }
+            if (numberSameName > 1) {
+                alert('You must type different name skill!');
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+        }
+
+        function validateNamePerSkill(id) {
+
+            let alertSkill = 'Name skill';
+
+            let $value = $(`#${id}`).text();
+            if ($value.trim().length <= 0) {
+                alert(`${alertSkill} is required!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+            if ($value.trim().length > 15) {
+                alert(`${alertSkill} is too long!`);
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+
+            let nameSkillPer = '';
+            let nameSkillPerNow = $(`#${id}`).text();
+            let numberSameName = 0;
+
+            let numberSkillPer = countGraphic("personal-skill","person-skill");
+            for (let i = 0; i < numberSkillPer; i++) {
+                let idNameSkillPer = $('.get-name-per-skill')[i].id;
+                nameSkillPer = ($('#'+idNameSkillPer).text());
+                if (nameSkillPer === nameSkillPerNow) {
+                    numberSameName = numberSameName+1;
+                }
+            }
+            if (numberSameName > 1) {
+                alert('You must type different name skill!');
+                setTimeout(function () {
+                    $(`#${id}`).focus();
+                });
+            }
+        }
+
+        function setAttributeToModal(id) {
+            let $name = $('#projectName'+id);
+            $('#headerModal').html($name.val());
+            $('#nameProjectModal').val($name.val());
+            $('#customerProjectModal').val($('#customer'+id).val());
+            $('#timeStartProjectModal').val($('#timeStart'+id).val());
+            $('#timeEndProjectModal').val($('#timeEnd'+id).val());
+            $('#descriptionProjectModal').val($('#description'+id).val());
+            $('#positionProjectModal').val($('#position'+id).val());
+            $('#responsibilityProjectModal').val($('#responsibility'+id).val());
+            $('#technologyProjectModal').val($('#technology'+id).val());
+            $('#teamSizeModal').val($('#teamSize'+id).val());
+            $('#colorModal').val($('#color'+id).val());
+            let $feature = $('#feature'+id);
+            if ($feature.val() === '1') {
+                $("#featureProjectModal").val('1');
+            }
+            if ($feature.val() === '0') {
+                $("#featureProjectModal").val('0');
+            }
+            let $sizeDisplay = $('#size'+id);
+            if ($sizeDisplay.val() === '1') {
+                $("#sizeDisplayModal").val('1');
+            }
+            if ($sizeDisplay.val() === '2') {
+                $("#sizeDisplayModal").val('2');
             }
             $('#idProjectNow').val(id);
 
         }
 
         function setAttributeToForm(id) {
-            $('#project-name'+id).val($('#name-project-modal').val());
-            $('#customer'+id).val($('#customer-project-modal').val());
-            $('#time-start'+id).val($('#time-start-project-modal').val());
-            $('#time-end'+id).val($('#time-end-project-modal').val());
-            $('#description'+id).val($('#description-project-modal').val());
-            $('#position'+id).val($('#position-project-modal').val());
-            $('#responsibility'+id).val($('#responsibility-project-modal').val());
-            $('#technology'+id).val($('#technology-project-modal').val());
-            $('#team-size'+id).val($('#team-size-modal').val());
-            $('#feature'+id).val($('#feature-project-modal').val());
+            $('#projectName'+id).val($('#nameProjectModal').val());
+            $('#customer'+id).val($('#customerProjectModal').val());
+            $('#timeStart'+id).val($('#timeStartProjectModal').val());
+            $('#timeEnd'+id).val($('#timeEndProjectModal').val());
+            $('#description'+id).val($('#descriptionProjectModal').val());
+            $('#position'+id).val($('#positionProjectModal').val());
+            $('#responsibility'+id).val($('#responsibilityProjectModal').val());
+            $('#technology'+id).val($('#technologyProjectModal').val());
+            $('#teamSize'+id).val($('#teamSizeModal').val());
+            $('#feature'+id).val($('#featureProjectModal').val());
+
+            let $sizeDisplay1 = $("#sizeDisplayModal");
+            $('#size'+id).val($sizeDisplay1.val());
+
+            let $project = $('#project'+id);
+            if ($sizeDisplay1.val() === '1') {
+                $project.removeClass('item2');
+                $project.removeClass('item1');
+                $project.removeClass('show-box-1');
+                $project.removeClass('show-box-2');
+                $project.addClass('item1');
+                $project.addClass('show-box-1');
+            }
+            if ($sizeDisplay1.val() === '2') {
+                $project.removeClass('item1');
+                $project.removeClass('item2');
+                $project.removeClass('show-box-1');
+                $project.removeClass('show-box-2');
+                $project.addClass('item2');
+                $project.addClass('show-box-2');
+            }
+
+            let $colorModal = $('#colorModal').val();
+            $('#color'+id).val($colorModal);
+            $project.css('background-color',$colorModal);
             alert('Save success!')
         }
 
 
         $(document).ready(function(){
 
-            $("#inputGroupFile01").change(function(event) {
-                readURL(this,'#avatar-cv-mini');
-                readURL(this,'#avatar-cv');
 
+
+            $("#inputGroupFile01").change(function(event) {
+                let check = validateAndReadURL(this,'#avatarCvMini');
+                if(check === true){
+                    readURL(this,'#avatar-cv');
+                }
             });
+
+            function validateAndReadURL(input, id) {
+                if (input.files && input.files[0]) {
+                    let fileInput = $("#inputGroupFile01");
+                    let filePath = fileInput.val();
+                    let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                    if (!allowedExtensions.exec(filePath)) {
+                        alert('Please upload file have type: .jpeg/.jpg/.png only.');
+                        fileInput.val('');
+                        return false;
+                    } else {
+                        let reader = new FileReader();
+                        reader.onload = function(e) {
+                            let url = 'url(' + e.target.result + ')';
+                            $(id).css('background-image', url);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                        return true;
+                    }
+
+                }
+            }
 
             function readURL(input, id) {
                 if (input.files && input.files[0]) {
@@ -113,23 +442,20 @@
             }
 
             $(document).on('change','.input-group-file',function () {
-                let idAvaFooter = $(this).parent().parent().attr('id');
-                alert(idAvaFooter);
-                readURL(this,'#'+idAvaFooter);
+                let fileInput = $(this);
+                let filePath = fileInput.val();
+                let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                if (!allowedExtensions.exec(filePath)) {
+                    alert('Please upload file have type: .jpeg/.jpg/.png only.');
+                    fileInput.val('');
+                    return false;
+                } else {
+                    let idAvaFooter = $(this).parent().parent().attr('id');
+                    readURL(this,'#'+idAvaFooter);
+                }
+
             });
 
-            let name = $('#first_name').html()+' '+$('#last_name').html();
-            $('#name').html(name);
-
-            $('#first_name').blur(function () {
-                let name = $('#first_name').html()+' '+$('#last_name').html();
-                $('#name').html(name);
-            });
-
-            $('#last_name').blur(function () {
-                let name = $('#first_name').html()+' '+$('#last_name').html();
-                $('#name').html(name);
-            });
 
             $.ajaxSetup({
                 headers: {
@@ -137,42 +463,36 @@
                 }
             });
 
+            let formData = new FormData();
+
 
 
             $('#btnSaveSubmit').click(function(e){
 
                 let percentSkillPro = [];
                 let nameSkillPro = [];
-                let skillPros = [];
 
                 let numberSkillPro = countGraphic("skillSum","skill-1");
                 for (let i = 0; i < numberSkillPro; i++) {
                     let idPercentSkillPro = $('.get-percent-pro-skill')[i].id;
                     let idNameSkillPro = $('.skill-1-p')[i].id;
-                    percentSkillPro[i] = ($('#'+idPercentSkillPro).html());
-                    nameSkillPro[i] = ($('#'+idNameSkillPro).html());
-                    let skillPro = {
-                        name: nameSkillPro[i],
-                        percent: percentSkillPro[i],
-                    }
-                    skillPros.push(skillPro);
+                    percentSkillPro[i] = Number(($('#'+idPercentSkillPro).text()));
+                    nameSkillPro[i] = ($('#'+idNameSkillPro).text());
+                    formData.append(`skill_pros[${i}][name]`, nameSkillPro[i]);
+                    formData.append(`skill_pros[${i}][percent]`, percentSkillPro[i]);
                 }
 
                 let percentSkillPer = [];
                 let nameSkillPer = [];
-                let skillPers = [];
 
                 let numberSkillPer = countGraphic("personal-skill","person-skill");
                 for (let i = 0; i < numberSkillPer; i++) {
                     let idPercentSkillPer = $('.get-percent-per-skill')[i].id;
                     let idNameSkillPer = $('.get-name-per-skill')[i].id;
-                    percentSkillPer[i] = ($('#'+idPercentSkillPer).html());
-                    nameSkillPer[i] = ($('#'+idNameSkillPer).html());
-                    let skillPer = {
-                        name: nameSkillPer[i],
-                        percent: percentSkillPer[i],
-                    }
-                    skillPers.push(skillPer);
+                    percentSkillPer[i] = Number(($('#'+idPercentSkillPer).text()));
+                    nameSkillPer[i] = ($('#'+idNameSkillPer).text());
+                    formData.append(`skill_pers[${i}][name]`, nameSkillPer[i]);
+                    formData.append(`skill_pers[${i}][percent]`, percentSkillPer[i]);
                 }
 
                 let workStartTime = [];
@@ -180,7 +500,6 @@
                 let companyName = [];
                 let workPosition = [];
                 let workContent = [];
-                let workExperiences = [];
 
                 let numberWorkExp = countGraphic("main-2-left","main-3");
                 for (let i =0; i < numberWorkExp; i++) {
@@ -190,21 +509,18 @@
                     let idWorkPosition = $('.get-company-position')[i].id;
                     let idWorkContent = $('.get-work-content')[i].id;
 
-                    workStartTime[i] = ($('#'+idWorkStartTime).html());
-                    workEndTime[i] = ($('#'+idWorkEndTime).html());
-                    companyName[i] = ($('#'+idCompanyName).html());
-                    workPosition[i] = ($('#'+idWorkPosition).html());
-                    workContent[i] = ($('#'+idWorkContent).html());
+                    workStartTime[i] = Number(($('#'+idWorkStartTime).text()));
+                    workEndTime[i] = Number(($('#'+idWorkEndTime).text()));
+                    companyName[i] = ($('#'+idCompanyName).text());
+                    workPosition[i] = ($('#'+idWorkPosition).text());
+                    workContent[i] = ($('#'+idWorkContent).text());
 
-                    let workExperience = {
-                        start_time: workStartTime[i],
-                        end_time: workEndTime[i],
-                        position: workPosition[i],
-                        work_content: workContent[i],
-                        company_name: companyName[i],
-                    }
+                    formData.append(`work_experiences[${i}][start_time]`, workStartTime[i]);
+                    formData.append(`work_experiences[${i}][end_time]`, workEndTime[i]);
+                    formData.append(`work_experiences[${i}][position]`, workPosition[i]);
+                    formData.append(`work_experiences[${i}][work_content]`, workContent[i]);
+                    formData.append(`work_experiences[${i}][company_name]`, companyName[i]);
 
-                    workExperiences.push(workExperience);
                 }
 
                 let eduStartTime = [];
@@ -212,7 +528,6 @@
                 let eduName = [];
                 let eduPosition = [];
                 let eduAchievement = [];
-                let eduExperiences = [];
 
                 let numberEduExp = countGraphic("main-2-right","main-3");
                 for (let i =0; i < numberEduExp; i++) {
@@ -222,21 +537,18 @@
                     let idEduPosition = $('.get-edu-position')[i].id;
                     let idAchievement = $('.get-achievement')[i].id;
 
-                    eduStartTime[i] = ($('#'+idEduStartTime).html());
-                    eduEndTime[i] = ($('#'+idEduEndTime).html());
-                    eduName[i] = ($('#'+idEduName).html());
-                    eduPosition[i] = ($('#'+idEduPosition).html());
-                    eduAchievement[i] = ($('#'+idAchievement).html());
+                    eduStartTime[i] = Number(($('#'+idEduStartTime).text()));
+                    eduEndTime[i] = Number(($('#'+idEduEndTime).text()));
+                    eduName[i] = ($('#'+idEduName).text());
+                    eduPosition[i] = ($('#'+idEduPosition).text());
+                    eduAchievement[i] = ($('#'+idAchievement).text());
 
-                    let eduExperience = {
-                        start_time: eduStartTime[i],
-                        end_time: eduEndTime[i],
-                        position: eduPosition[i],
-                        achievement: eduAchievement[i],
-                        school_name: eduName[i],
-                    }
+                    formData.append(`edu_experiences[${i}][start_time]`, eduStartTime[i]);
+                    formData.append(`edu_experiences[${i}][end_time]`, eduEndTime[i]);
+                    formData.append(`edu_experiences[${i}][position]`, eduPosition[i]);
+                    formData.append(`edu_experiences[${i}][achievement]`, eduAchievement[i]);
+                    formData.append(`edu_experiences[${i}][school_name]`, eduName[i]);
 
-                    eduExperiences.push(eduExperience);
                 }
 
                 let projectName = [];
@@ -249,7 +561,8 @@
                 let technology = [];
                 let teamSize = [];
                 let feature = [];
-                let portfolios = [];
+                let colorDisplay = [];
+                let sizeDisplay = [];
 
                 let numberProject = countGraphic("sumProject","show-box");
                 for (let i =0; i < numberProject; i++) {
@@ -263,6 +576,8 @@
                     let idTechnology = $('.get-technology')[i].id;
                     let idTeamSize = $('.get-team-size')[i].id;
                     let idFeature = $('.get-feature')[i].id;
+                    let idColorDisplay = $('.get-color-display')[i].id;
+                    let idSizeDisplay = $('.get-size-display')[i].id;
 
                     projectName[i] = ($('#'+idProjectName).val());
                     customer[i] = ($('#'+idCustomer).val());
@@ -274,86 +589,77 @@
                     technology[i] = ($('#'+idTechnology).val());
                     teamSize[i] = ($('#'+idTeamSize).val());
                     feature[i] = ($('#'+idFeature).val());
+                    colorDisplay[i] = ($('#'+idColorDisplay).val());
+                    sizeDisplay[i] = ($('#'+idSizeDisplay).val());
 
-                    let portfolio = {
-                        name: projectName[i],
-                        customer: customer[i],
-                        start_time: timeStart[i],
-                        end_time: timeEnd[i],
-                        position: position[i],
-                        description: description[i],
-                        responsibilities: responsibility[i],
-                        technologies: technology[i],
-                        team_size: teamSize[i],
-                        is_feature: feature[i],
-                    }
+                    formData.append(`portfolios[${i}][name]`, projectName[i]);
+                    formData.append(`portfolios[${i}][customer]`, customer[i]);
+                    formData.append(`portfolios[${i}][start_time]`, timeStart[i]);
+                    formData.append(`portfolios[${i}][end_time]`, timeEnd[i]);
+                    formData.append(`portfolios[${i}][position]`, position[i]);
+                    formData.append(`portfolios[${i}][description]`, description[i]);
+                    formData.append(`portfolios[${i}][responsibilities]`, responsibility[i]);
+                    formData.append(`portfolios[${i}][technologies]`, technology[i]);
+                    formData.append(`portfolios[${i}][team_size]`, teamSize[i]);
+                    formData.append(`portfolios[${i}][is_feature]`, feature[i]);
+                    formData.append(`portfolios[${i}][color_display]`, colorDisplay[i]);
+                    formData.append(`portfolios[${i}][size_display]`, sizeDisplay[i]);
 
-                    portfolios.push(portfolio);
                 }
 
                 let contentSlide = [];
                 let idInput = [];
-                let imageSlide = [];
 
                 let numberSlide = countGraphic("slick","get-content-slide");
-                alert(numberSlide);
                 for (let i =0; i < numberSlide; i++) {
                     let idContentSlide = $('.get-content-slide')[i].id;
                     contentSlide[i] = ($('#'+idContentSlide).html());
+                    formData.append(`content_slide[${i}]`, contentSlide[i]);
                     idInput[i]  = $('.input-group-file')[i].id;
                 }
 
-                let avaName ='';
-
-                if ($("#inputGroupFile01").val()) {
-                    let filename = $("#inputGroupFile01").val();
-                    avaName = filename.substring(filename.lastIndexOf('\\')+1);
-                } else {
-                    avaName = 'ava.png'
-                }
-
-
-
-                let formData = new FormData();
-                let image = $("#inputGroupFile01")[0].files[0];
                 for (let i =0; i < idInput.length; i++) {
                     formData.append('image_slide[]',$('#'+idInput[i])[0].files[0]);
                 }
+
+                let image = $("#inputGroupFile01")[0].files[0];
                 formData.append('file',image);
                 formData.append('_token', '{{csrf_token()}}');
                 formData.append('title', $('#title').val());
-                formData.append('first_name', $('#first_name').html());
-                formData.append('position', $('#position').html());
-                formData.append('last_name', $('#last_name').html());
-                formData.append('date_of_birth',$('#date_of_birth').html());
-                formData.append('phone',$('#phone').html());
-                formData.append('email', $('#email').html());
-                formData.append('facebook', $('#facebook').html());
-                formData.append('skype', $('#skype').html());
-                formData.append('chat_work', $('#chat_work').html());
-                formData.append('address', $('#address').html());
-                formData.append('summary', $('#summary').html());
-                formData.append('professional_skill_title', $('#professional_skill_title').html());
-                formData.append('personal_skill_title', $('#personal_skill_title').html());
-                formData.append('work_experience_title', $('#work_experience_title').html());
-                formData.append('education_title', $('#education_title').html());
-                formData.append('skill_pros', JSON.stringify(skillPros));
-                formData.append('skill_pers', JSON.stringify(skillPers));
-                formData.append('work_experiences', JSON.stringify(workExperiences));
-                formData.append('edu_experiences', JSON.stringify(eduExperiences));
-                formData.append('portfolios', JSON.stringify(portfolios));
-                formData.append('image', avaName);
-                formData.append('image_mini', avaName);
-                formData.append('content_slide', JSON.stringify(contentSlide));
+                formData.append('first_name', $('#firstName').val());
+                formData.append('position', $('#position').val());
+                formData.append('last_name', $('#lastName').val());
+                formData.append('date_of_birth',$('#dateOfBirth').val());
+                formData.append('phone',$('#phone').val());
+                formData.append('email', $('#email').val());
+                formData.append('facebook', $('#facebook').val());
+                formData.append('skype', $('#skype').val());
+                formData.append('chat_work', $('#chatWork').val());
+                formData.append('address', $('#address').val());
+                formData.append('summary', $('#summary').text());
+                formData.append('professional_skill_title', $('#professionalSkillTitle').text());
+                formData.append('personal_skill_title', $('#personalSkillTitle').text());
+                formData.append('work_experience_title', $('#workExperienceTitle').text());
+                formData.append('education_title', $('#educationTitle').text());
 
                 $.ajax({
                     url: "{{route('cvs.store')}}",
                     data: formData,
-                    type: 'POST',
+                    type: 'post',
                     contentType: false,
                     processData: false,
                     success: function(result){
-                        console.log(result);
+                        window.location = '{{route('home')}}'
+                    },
+                    error: function (data) {
+                        let errForm = [];
+                        if( data.status === 422 ) {
+                            let errs = data.responseJSON.errors;
+                            $.each(errs, function (key, value) {
+                                errForm.push(value[0]);
+                            })
+                        }
+                        alert(errForm[0]);
                     }
                 });
 

@@ -11,9 +11,9 @@
         <div class="row">
             <div class="col-12">
                 <h2><span class="before">professional</span> <span class="behind">summary</span></h2>
-                <p contenteditable="true" id="summary" onblur="validatetextInfo(this.id, 0, 1000)" class="para">Lorem ipsum dolor sit amet, consectetuer adipiscing elit!</p>
+                <p contenteditable="true" id="summary" onblur="validatetextInfo(this.id, 0, 1000)" class="para">{{$cv->summary}}</p>
                 <div class="content-1-button flex flex-row justify-content-end">
-                    <button class="flex-row flex justify-content-center align-items-center">
+                    <button class="d-none flex-row flex justify-content-center align-items-center">
                         Edit summary
                         <i class="fas fa-pen"></i>
                     </button>
@@ -22,3 +22,4 @@
         </div>
     </div>
 </div>
+

@@ -16,6 +16,6 @@ class Skill extends Model
 
     public function cvs()
     {
-        return $this->belongsToMany(Cv::class)->withPivot('percent', 'type');
+        return $this->belongsToMany(Cv::class)->withPivot('percent');
     }
 }

@@ -503,7 +503,7 @@
   }
 
   .slide {
-    padding: 0px;
+    padding: 0;
   }
 
   .slide {
@@ -511,17 +511,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0px;
+    padding: 0;
+      .ava-footer {
+          margin-left: 0;
+      }
   }
 
   .prev {
-    left: 30px;
-    top: 25%;
+    left: 34px;
+    top: 35%;
   }
 
   .next {
     right: 34px;
-    top: 25%;
+    top: 35%;
   }
 
   .slide

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Haposoft-Cv</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -81,17 +81,16 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Haposoft
                 </div>
-
                 <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="http://haposoft.com/vi">Home Page</a>
+                    <a href="http://haposoft.com/vi/about">About me</a>
+                    <a href="http://haposoft.com/vi/service">Service</a>
+                    <a href="http://haposoft.com/vi/news">News</a>
+                    <a href="http://haposoft.com/vi/join-us">Recruitment</a>
+                    <a href="http://haposoft.com/vi/contact">Contact</a>
+                    <a href="http://wiki.haposoft.com/">Wiki</a>
                 </div>
             </div>
         </div>

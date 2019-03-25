@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Cv;
 
+use App\Http\Requests\CvRequest;
+use App\Http\Requests\UpdateCvRequest;
 use App\Models\Education;
 use App\Models\Portfolio;
 use App\Models\School;
@@ -16,6 +18,7 @@ use App\Models\Company;
 use App\Models\WorkExperience;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Reference;
+use phpDocumentor\Reflection\Types\Object_;
 
 class CvController extends Controller
 {
@@ -56,73 +59,74 @@ class CvController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CvRequest $request)
     {
-
         if($request->hasFile('file')) {
-            $path = Storage::putFileAs(
-                'avatars', $request->file('file'), $request->image
-            );
+            $fileName = uniqid() . '.' . 'jpg';
+            $request->file('file')->storeAs('public/avatar', $fileName);
         }
 
         $userId = Auth::id();
-        $data = array_merge($request->all(), ["user_id" => $userId]);
+        $data = array_merge($request->all(), ["user_id" => $userId, "image" => $fileName, "image_mini" => $fileName]);
         $cv = Cv::create($data);
         $cv->save();
 
-        if($request->hasFile('file')) {
-            $nameImageAva = $cv->id.'avatar.jpg';
-            $path = Storage::putFileAs('avatars', $request->file('file'), $nameImageAva);
-            $cv->image = $nameImageAva;
-            $cv->image_mini = $nameImageAva;
-            $cv->save();
-        }
 
-        $skillPros = json_decode($request->skill_pros);
-        foreach ($skillPros as $skillPro) {
-            $skillId = Skill::firstOrCreate(['name' => strtoupper($skillPro->name), 'type' => Skill::PROFESSIONAL])->id;
-            $cv->skills()->attach($cv->id,['percent' => $skillPro->percent, 'skill_id' => $skillId]);
-        }
-
-        $skillPers = json_decode($request->skill_pers);
-        foreach ($skillPers as $skillPer) {
-            $skillId = Skill::firstOrCreate(['name' => strtoupper($skillPer->name), 'type' => Skill::PERSONAL])->id;
-            $cv->skills()->attach($cv->id,['percent' => $skillPer->percent, 'skill_id' => $skillId]);
-        }
-
-        $workExperiences = json_decode($request->work_experiences);
-        foreach ($workExperiences as $workExperience) {
-            $companyId = Company::firstOrCreate(['name' =>  strtoupper($workExperience->company_name),])->id;
-            $data = array_merge((array)$workExperience, ["company_id" => $companyId, 'cv_id' => $cv->id]);
-            WorkExperience::create($data);
-        }
-
-        $eduExperiences = json_decode($request->edu_experiences);
-        foreach ($eduExperiences as $eduExperience) {
-            $schoolId = School::firstOrCreate(['name' =>  strtoupper($eduExperience->school_name),])->id;
-            $data = array_merge((array)$eduExperience, ["school_id" => $schoolId, 'cv_id' => $cv->id]);
-            Education::create($data);
-        }
-
-        $portfolios = json_decode($request->portfolios);
-        foreach ($portfolios as $portfolio) {
-            $data = array_merge((array)$portfolio, ['cv_id' => $cv->id]);
-            Portfolio::create($data);
-        }
-
-        $content = json_decode($request->content_slide);
-        for ($i = 0; $i < count($content); $i++) {
-            $ref = Reference::create(["content"=>$content[$i], "image" => "default.jpg", "cv_id" => $cv->id]);
-            $files = $request->file('image_slide');
-            if (!empty($files)) {
-                $nameImage = 'avafooter'.$ref->id.'a'.$cv->id.'.jpg';
-                $path = Storage::putFileAs(
-                    'imageRef', $files[$i] , $nameImage
-                );
-                $ref->image = $nameImage;
-                $ref->save();
+        if ($request->skill_pros) {
+            $skillPros = $request->skill_pros;
+            foreach ($skillPros as $skillPro) {
+                $skillId = Skill::firstOrCreate(['name' => strtoupper($skillPro['name']), 'type' => Skill::PROFESSIONAL])->id;
+                $cv->skills()->attach($cv->id,['percent' => $skillPro['percent'], 'skill_id' => $skillId]);
             }
         }
+
+        if ($request->skill_pers) {
+            $skillPers = $request->skill_pers;
+            foreach ($skillPers as $skillPer) {
+                $skillId = Skill::firstOrCreate(['name' => strtoupper($skillPer['name']), 'type' => Skill::PERSONAL])->id;
+                $cv->skills()->attach($cv->id,['percent' => $skillPer['percent'], 'skill_id' => $skillId]);
+            }
+        }
+
+        if ($request->work_experiences) {
+            $workExperiences = $request->work_experiences;
+            foreach ($workExperiences as $workExperience) {
+                $companyId = Company::firstOrCreate(['name' =>  strtoupper($workExperience['company_name']),])->id;
+                $data = array_merge((array)$workExperience, ["company_id" => $companyId, 'cv_id' => $cv->id]);
+                WorkExperience::create($data);
+            }
+        }
+
+        if ($request->edu_experiences) {
+            $eduExperiences = $request->edu_experiences;
+            foreach ($eduExperiences as $eduExperience) {
+                $schoolId = School::firstOrCreate(['name' =>  strtoupper($eduExperience['school_name']),])->id;
+                $data = array_merge((array)$eduExperience, ["school_id" => $schoolId, 'cv_id' => $cv->id]);
+                Education::create($data);
+            }
+        }
+
+        if ($request->portfolios) {
+            $portfolios = $request->portfolios;
+            foreach ($portfolios as $portfolio) {
+                $data = array_merge((array)$portfolio, ['cv_id' => $cv->id]);
+                Portfolio::create($data);
+            }
+        }
+
+        if ($request->content_slide) {
+            $content = $request->content_slide;
+            for ($i = 0; $i < count($content); $i++) {
+                $files = $request->file('image_slide');
+                if (!empty($files)) {
+                    $nameImage = uniqid() . '.' . 'jpg';
+                    $files[$i]->storeAs('public/avatarFooter', $nameImage);
+                }
+                Reference::create(["content"=>$content[$i], "image" => $nameImage, "cv_id" => $cv->id]);
+            }
+        }
+        return ($cv->id);
+
     }
 
     /**
@@ -133,9 +137,9 @@ class CvController extends Controller
      */
     public function show($id)
     {
-        $proSkills = Cv::findOrFail($id)->skills;
+        $skills = Cv::findOrFail($id)->skills;
         $cv = Cv::findOrFail($id);
-        return view('cv.index', compact('cv','proSkills'));
+        return view('cv.show', compact('cv','skills'));
     }
 
     /**
@@ -146,14 +150,12 @@ class CvController extends Controller
      */
     public function edit($id)
     {
-        if (Auth::guard('user')->check()) {
-            $proSkills = Cv::findOrFail($id)->skills;
-            $cv = Cv::findOrFail($id);
-            return view('cv.edit', compact('cv','proSkills'));
+        $cv = Cv::findOrFail($id);
+        if(Auth::guard('user')->id() === $cv->user_id) {
+            $skills = Cv::findOrFail($id)->skills;
+            return view('cv.edit', compact('cv','skills'));
         }
-        else {
-            return redirect()->route('login');
-        }
+
     }
 
     /**
@@ -163,9 +165,100 @@ class CvController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCvRequest $request, $id)
     {
-        //
+
+
+        $dataCv = $request->all();
+
+        if($request->hasFile('file')) {
+            $fileName = uniqid() . '.' . 'jpg';
+            $request->file('file')->storeAs('public/avatar', $fileName);
+            $dataCv = array_merge($dataCv,["image" => $fileName, "image_mini" => $fileName]);
+        }
+
+        $cv = Cv::findOrFail($id);
+        $cv->update($dataCv);
+
+        if ($request->skill_pros) {
+            $skillPros = $request->skill_pros;
+            foreach ($skillPros as $skillPro) {
+                $skillId = Skill::firstOrCreate(['name' => strtoupper($skillPro['name']), 'type' => Skill::PROFESSIONAL])->id;
+                $data[$skillId] = ['percent' => $skillPro['percent'], 'cv_id' => $cv->id];
+                $cv->skills()->sync($data);
+            }
+        } else {
+            $cv->skills()->detach();
+        }
+
+        if ($request->skill_pers) {
+            $skillPers = $request->skill_pers;
+            foreach ($skillPers as $skillPer) {
+                $skillId = Skill::firstOrCreate(['name' => strtoupper($skillPer['name']), 'type' => Skill::PERSONAL])->id;
+                $data[$skillId] = ['percent' => $skillPer['percent'], 'cv_id' => $cv->id];
+                $cv->skills()->sync($data);
+            }
+        } else {
+            $cv->skills()->detach();
+        }
+
+        $cv->workExperiences()->delete();
+        $workExperiences = $request->work_experiences;
+        foreach ($workExperiences as $workExperience) {
+            $companyId = Company::firstOrCreate(['name' =>  strtoupper($workExperience['company_name']),])->id;
+            $data = array_merge((array)$workExperience, ["company_id" => $companyId, 'cv_id' => $cv->id]);
+            WorkExperience::create($data);
+        }
+
+        $cv->education()->delete();
+        $eduExperiences = $request->edu_experiences;
+        foreach ($eduExperiences as $eduExperience) {
+            $schoolId = School::firstOrCreate(['name' =>  strtoupper($eduExperience['school_name']),])->id;
+            $data = array_merge((array)$eduExperience, ["school_id" => $schoolId, 'cv_id' => $cv->id]);
+            Education::create($data);
+        }
+
+        $cv->portfolios()->delete();
+        $portfolios = $request->portfolios;
+        foreach ($portfolios as $portfolio) {
+            $data = array_merge((array)$portfolio, ['cv_id' => $cv->id]);
+            Portfolio::create($data);
+        }
+
+        if ($slides =  $request->slides) {
+            $slides =  $request->slides;
+            $references = $cv->references;
+            foreach ($slides as $slide) {
+                foreach ($references as $reference) {
+                    if ($reference->id === (int)$slide['id']) {
+                        if (gettype($slide['image']) == 'object') {
+                            $files = $slide['image'];
+                            $nameImage = uniqid() . '.' . 'jpg';
+                            $files->storeAs('public/avatarFooter', $nameImage);
+                            $reference->update(["content" => $slide['content'], "image" => $nameImage]);
+                        } else {
+                            $reference->update(["content" => $slide['content']]);
+                        }
+                    } else {
+                        $reference->delete();
+                    }
+                }
+            }
+        }
+
+
+        if ($request->content_slide_edit) {
+            $contentEdit = $request->content_slide_edit;
+            for ($i = 0; $i < count($contentEdit); $i++) {
+                $files = $request->file('image_slide_edit');
+                if (!empty($files)) {
+                    $nameImageEdit = uniqid() . '.' . 'jpg';
+                    $files[$i]->storeAs('public/avatarFooter', $nameImageEdit);
+                }
+                Reference::create(["content" => $contentEdit[$i], "image" => $nameImageEdit, "cv_id" => $cv->id]);
+            }
+        }
+
     }
 
     public function updateStatus(Request $request,$id)
